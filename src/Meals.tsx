@@ -14,20 +14,21 @@ interface Props {
 
 const Meals: React.FC<Props> = ({ classes }) => {
   return (
-    <Grid container>
-      <Grid item>
-        <Paper className={classes.paper}>
-          <Typography gutterBottom variant="h4" component="h2">Repas</Typography>
+    <Paper className={classes.paper}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
+        </Grid>
+        <Grid item xs={8}>
+          <Typography gutterBottom variant="h5" component="h3">Repas</Typography>
           <List>
             <ListItem button>Soupe aux choux</ListItem>
             <ListItem button>Cassoulet</ListItem>
           </List>
           <Button>Ajouter un plat</Button>
-        </Paper>
-      </Grid>
-      <Grid item>
-        <Paper className={classes.paper}>
-          <Typography gutterBottom variant="h4" component="h2"> Ingrédients </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography gutterBottom variant="h5" component="h3"> Ingrédients </Typography>
           <List>
             <ListItem>
               1
@@ -48,9 +49,9 @@ const Meals: React.FC<Props> = ({ classes }) => {
               />
             </ListItem>
           </List>
-        </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   )
 }
 

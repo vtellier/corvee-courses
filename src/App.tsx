@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  title: {
+    flexGrow: 1,
+  },
   grid: {
     padding: theme.spacing(2),
   },
@@ -31,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   container: {
+    paddingTop: 20,
     paddingBottom: 150,
   },
   appBar: {
@@ -56,7 +60,8 @@ function getStepContent(step: number, classes: any) {
     case 2:
       return (
         <Paper className={classes.paper}>
-          <Typography gutterBottom variant="h4" component="h2"> Apercu </Typography>
+          <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
+          <Typography gutterBottom variant="h5" component="h3"> Ajustez la en fonction de ce que vous avez déjà dans vos équipés </Typography>
         </Paper>
       );
     default:
@@ -78,7 +83,11 @@ function App() {
     return (
       <div>
         <AppBar position="static">
-          <h1>Corvée-courses</h1>
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Ravitaillement
+            </Typography>
+          </Toolbar>
         </AppBar>
         <Container maxWidth="md" className={classes.container}>
   
