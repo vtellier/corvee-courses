@@ -1,17 +1,15 @@
 import React, { ReactElement } from 'react'
 import {
     Typography,
-    Paper,
     List, ListItem
 } from '@material-ui/core';
 
 interface Props {
-    classes : any
 }
 
-const Sidelines: React.FC<Props> = ({ classes }) => {
+const Sidelines: React.FC<Props> = ({}) => {
   return (
-    <Paper className={classes.paper}>
+    <div>
       <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>
       <List>
           <ListItem button>Petit déjeuner</ListItem>
@@ -19,7 +17,7 @@ const Sidelines: React.FC<Props> = ({ classes }) => {
           <ListItem button>Apéro</ListItem>
           <ListItem button>Autres</ListItem>
       </List>
-    </Paper>
+    </div>
   )
 }
 

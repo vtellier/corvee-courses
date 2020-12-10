@@ -54,20 +54,22 @@ function getSteps() {
 function getStepContent(step: number, classes: any) {
   switch (step) {
     case 0:
-      return (<Meals classes={classes} />);
+      return (<Meals />);
     case 1:
-      return (<Sidelines classes={classes} />);
+      return (<Sidelines />);
     case 2:
       return (
-        <Paper className={classes.paper}>
+        <div>
           <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
           <Typography gutterBottom variant="h5" component="h3"> Ajustez la en fonction de ce que vous avez déjà dans vos équipés </Typography>
-        </Paper>
+        </div>
       );
     default:
       return 'Unknown step';
   }
 }
+
+
 
 function App() {
     const classes = useStyles();
@@ -91,7 +93,9 @@ function App() {
         </AppBar>
         <Container maxWidth="md" className={classes.container}>
   
+          <Paper elevation={1} className={classes.paper}>
             { getStepContent(activeStep, classes) }
+          </Paper>
   
         </Container>
         <AppBar position="fixed" className={classes.appBar}>
