@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import {
     Typography,
     List, ListItem
@@ -7,7 +7,7 @@ import {
 interface Props {
 }
 
-const Sidelines: React.FC<Props> = ({}) => {
+const Sidelines: React.FC<Props> = () => {
   return (
     <div>
       <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>

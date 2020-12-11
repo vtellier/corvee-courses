@@ -7,9 +7,7 @@ import { Typography } from '@material-ui/core';
 import {
     Stepper,
     Step,
-    StepLabel,
     StepButton,
-    Button
 } from '@material-ui/core';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 

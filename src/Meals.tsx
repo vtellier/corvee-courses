@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import {
     Typography,
     List, ListItem,
@@ -10,7 +10,7 @@ import {
 interface Props {
 }
 
-const Meals: React.FC<Props> = ({}) => {
+const Meals: React.FC<Props> = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
