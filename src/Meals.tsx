@@ -1,4 +1,5 @@
 import React from 'react'
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
     Typography,
@@ -55,7 +56,17 @@ class MealDetails extends React.Component<MealDetailsProps, MealDetailsState> {
     }
 }
 
+const styles = (theme: Theme) => createStyles({
+    heading: {
+      fontSize: theme.typography.pxToRem(15),
+      flexBasis: '20%',
+      flexShrink: 0,
+      marginTop: 13,
+    },
+});
+
 type MealsProps = {
+    classes: any,
 }
 
 type MealsState = {
@@ -67,6 +78,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
         this.state = {};
     }
     render() {
+        const { classes } = this.props;
         return (
           <>
             <Hidden smDown>
@@ -81,7 +93,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
                   >
                     <DeleteIcon />
                   </IconButton>
-                  <Typography>
+                  <Typography className={classes.heading}>
                     Soupe aux choux
                   </Typography>
                 </AccordionSummary>
@@ -95,4 +107,4 @@ class Meals extends React.Component<MealsProps,MealsState> {
       }
 }
 
-export default Meals
+export default withStyles(styles)(Meals)
