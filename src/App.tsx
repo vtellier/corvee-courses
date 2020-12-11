@@ -11,14 +11,14 @@ import {
     StepButton,
     Button
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import Meals from './Meals';
 import Sidelines from './Sidelines';
 
 import './App.css';
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme: Theme) => createStyles({
   root: {
     flexGrow: 1,
   },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     top: 'auto',
     bottom: 0,
   },
-}));
+});
 
 function getSteps() {
     return [
@@ -69,10 +69,12 @@ function getStepContent(step: number, classes: any) {
   }
 }
 
+type AppProps = {
+    classes: any
+}
 
-
-function App() {
-    const classes = useStyles();
+function App(props: AppProps) {
+    const { classes } = props;
     const steps = getSteps();
     const [activeStep, setActiveStep] = React.useState(0);
     const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
@@ -115,4 +117,4 @@ function App() {
     );
 }
 
-export default App;
+export default withStyles(styles)(App);
