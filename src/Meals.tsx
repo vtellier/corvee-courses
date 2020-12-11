@@ -15,14 +15,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-type MealDetailsProps = {
+type IngredientsProps = {
 }
 
-type MealDetailsState = {
+type IngredientsState = {
 }
 
-class MealDetails extends React.Component<MealDetailsProps, MealDetailsState> {
-    constructor(props:MealDetailsProps) {
+class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
+    constructor(props:IngredientsProps) {
         super(props);
         this.state = {
         };
@@ -98,7 +98,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <MealDetails />
+                  <Ingredients />
                 </AccordionDetails>
               </Accordion>
               <Button>Ajouter un plat</Button>
