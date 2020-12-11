@@ -1,10 +1,11 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import { Typography } from '@material-ui/core';
 import {
+    AppBar,
+    Toolbar,
+    Paper,
+    Container,
+    Typography,
+    Hidden,
     Stepper,
     Step,
     StepButton,
@@ -66,14 +67,16 @@ class App extends React.Component<AppProps,AppState> {
     getStepContent(step: number, classes: any) {
         switch (step) {
             case 0:
-            return (<Meals />);
+            return (<Meals/>);
             case 1:
             return (<Sidelines />);
             case 2:
             return (
                 <div>
-                <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
-                <Typography gutterBottom variant="h5" component="h3"> Ajustez la en fonction de ce que vous avez déjà dans vos équipés </Typography>
+                    <Hidden smDown>
+                        <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
+                    </Hidden>
+                    <Typography gutterBottom variant="h5" component="h3"> Ajustez la en fonction de ce que vous avez déjà dans vos équipés </Typography>
                 </div>
             );
             default:
