@@ -3,58 +3,14 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
     Typography,
-    List, ListItem,
     Button,
     IconButton,
-    Fab,
     Hidden,
-    TextField
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-type IngredientsProps = {
-}
-
-type IngredientsState = {
-}
-
-class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
-    constructor(props:IngredientsProps) {
-        super(props);
-        this.state = {
-        };
-    }
-    render () {
-        return (
-            <List>
-                <ListItem>
-                1
-                Oignons
-                </ListItem>
-                <ListItem>
-                <TextField
-                    id="quantity"
-                    label="Quantité"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                    id="quantity"
-                    label="Ingrédient"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                />
-                </ListItem>
-                <Fab color="primary" aria-label="add">
-                    <AddIcon />
-                </Fab>
-            </List>
-        );
-    }
-}
+import Ingredients from './Ingredients';
 
 const styles = (theme: Theme) => createStyles({
     heading: {
