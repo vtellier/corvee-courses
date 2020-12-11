@@ -40,24 +40,23 @@ class Meals extends React.Component<MealsProps,MealsState> {
             <Hidden smDown>
               <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
             </Hidden>
-              <Typography gutterBottom variant="h5" component="h3">Repas</Typography>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <IconButton aria-label="supprimer"
-                      onClick={(event) => event.stopPropagation()}
-                      onFocus={(event) => event.stopPropagation()}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                  <Typography className={classes.heading}>
-                    Soupe aux choux
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Ingredients />
-                </AccordionDetails>
-              </Accordion>
-              <Button>Ajouter un plat</Button>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <IconButton aria-label="supprimer"
+                    onClick={(event) => event.stopPropagation()}
+                    onFocus={(event) => event.stopPropagation()}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography className={classes.heading}>
+                  Soupe aux choux
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Ingredients />
+              </AccordionDetails>
+            </Accordion>
+            <Button>Ajouter un plat</Button>
           </>
         )
       }

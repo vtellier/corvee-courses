@@ -2,25 +2,43 @@ import React from 'react'
 import {
     Hidden,
     Typography,
-    List, ListItem
+    Accordion, AccordionSummary, AccordionDetails,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Ingredients from './Ingredients';
 
 interface Props {
 }
 
+interface Sideline {
+    label: string,
+    id: string,
+}
+
 const Sidelines: React.FC<Props> = () => {
+    const sides: Sideline[] = [
+        { label:'Petit déjeuner', id:'breakfast' }, 
+        { label:'Goutter',        id:'snack'     }, 
+        { label:'Apéro',          id:'aperitif'  }, 
+        { label:'Autres',         id:'others'    }, 
+    ];
   return (
-    <div>
+    <>
       <Hidden smDown>
         <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>
       </Hidden>
-      <List>
-          <ListItem button>Petit déjeuner</ListItem>
-          <ListItem button>Goutter</ListItem>
-          <ListItem button>Apéro</ListItem>
-          <ListItem button>Autres</ListItem>
-      </List>
-    </div>
+        { sides.map((item) => (
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            { item.label }
+          </AccordionSummary>
+          <AccordionDetails>
+            <Ingredients />
+          </AccordionDetails>
+        </Accordion>
+        )) }
+    </>
   )
 }
 

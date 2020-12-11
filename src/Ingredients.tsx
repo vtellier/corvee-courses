@@ -10,12 +10,14 @@ type IngredientsProps = {
 }
 
 type IngredientsState = {
+    adding: boolean,
 }
 
 class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
     constructor(props:IngredientsProps) {
         super(props);
         this.state = {
+            adding: false,
         };
     }
     render () {
@@ -25,23 +27,26 @@ class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
                 1
                 Oignons
                 </ListItem>
+                { this.state.adding ? (
                 <ListItem>
-                <TextField
+                  <TextField
                     id="quantity"
                     label="Quantité"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                />
-                <TextField
+                  />
+                  <TextField
                     id="quantity"
                     label="Ingrédient"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                />
+                  />
                 </ListItem>
+                ) : (
                 <Fab color="primary" aria-label="add">
-                    <AddIcon />
+                  <AddIcon />
                 </Fab>
+                ) }
             </List>
         );
     }
