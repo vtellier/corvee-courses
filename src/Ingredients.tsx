@@ -1,6 +1,7 @@
 import React from 'react'
 import {
     List, ListItem,
+    Button,
     Fab,
     TextField
 } from '@material-ui/core';
@@ -19,6 +20,14 @@ class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
         this.state = {
             adding: false,
         };
+        this.onClickAdd = this.onClickAdd.bind(this);
+        this.onClickOk  = this.onClickOk.bind(this);
+    }
+    onClickAdd(e:object):void {
+        this.setState({ adding: true });
+    }
+    onClickOk(e:object):void {
+        this.setState({ adding: false });
     }
     render () {
         return (
@@ -41,10 +50,11 @@ class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
                     type="text"
                     InputLabelProps={{ shrink: true }}
                   />
+                  <Button onClick={ this.onClickOk }>Ok</Button>
                 </ListItem>
                 ) : (
                 <Fab color="primary" aria-label="add">
-                  <AddIcon />
+                  <AddIcon onClick={ this.onClickAdd } />
                 </Fab>
                 ) }
             </List>
