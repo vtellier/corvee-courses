@@ -16,7 +16,10 @@ import Meals from './Meals';
 import Sidelines from './Sidelines';
 
 import './App.css';
-import './dataStructure';
+import {
+    AppState,
+    defaultState,
+} from './dataStructure';
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -47,16 +50,10 @@ type AppProps = {
     classes: any,
 };
 
-type AppState = {
-    activeStep: number,
-};
-
 class App extends React.Component<AppProps,AppState> {
     constructor(props:AppProps) {
         super(props);
-        this.state = {
-            activeStep: 0,
-        };
+        this.state = defaultState();
     }
     getSteps() {
         return [
@@ -68,7 +65,7 @@ class App extends React.Component<AppProps,AppState> {
     getStepContent(step: number, classes: any) {
         switch (step) {
             case 0:
-            return (<Meals/>);
+            return (<Meals />);
             case 1:
             return (<Sidelines />);
             case 2:
