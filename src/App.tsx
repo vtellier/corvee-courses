@@ -76,7 +76,7 @@ class App extends React.Component<AppProps,AppState> {
                     <Hidden smDown>
                         <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
                     </Hidden>
-                    <Typography gutterBottom variant="h5" component="h3"> Ajustez la en fonction de ce que vous avez déjà dans vos équipés </Typography>
+                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
                 </div>
             );
             default:
