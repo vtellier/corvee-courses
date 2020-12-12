@@ -16,6 +16,7 @@ import Meals from './Meals';
 import Sidelines from './Sidelines';
 
 import './App.css';
+import './dataStructure';
 
 const styles = (theme: Theme) => createStyles({
   root: {
