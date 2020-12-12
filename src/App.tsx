@@ -19,6 +19,7 @@ import './App.css';
 import {
     AppState,
     defaultState,
+    ProvisionList,
 } from './dataStructure';
 
 const styles = (theme: Theme) => createStyles({
@@ -54,6 +55,11 @@ class App extends React.Component<AppProps,AppState> {
     constructor(props:AppProps) {
         super(props);
         this.state = defaultState();
+        this.onAddMenu = this.onAddMenu.bind(this);
+    }
+    onAddMenu(menu:ProvisionList) {
+        console.log('Adding a new menu');
+        this.state.shoppingSession.menus.push(menu);
     }
     getSteps() {
         return [
@@ -65,7 +71,7 @@ class App extends React.Component<AppProps,AppState> {
     getStepContent(step: number, classes: any) {
         switch (step) {
             case 0:
-            return (<Meals />);
+            return (<Meals menus={ this.state.shoppingSession.menus } onAddMenu={ this.onAddMenu } />);
             case 1:
             return (<Sidelines />);
             case 2:

@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import { ProvisionList } from './dataStructure';
 import Ingredients from './Ingredients';
 
 const styles = (theme: Theme) => createStyles({
@@ -23,6 +23,8 @@ const styles = (theme: Theme) => createStyles({
 
 type MealsProps = {
     classes: any,
+    menus: ProvisionList[],
+    onAddMenu: (menu:ProvisionList) => void
 }
 
 type MealsState = {
@@ -32,6 +34,15 @@ class Meals extends React.Component<MealsProps,MealsState> {
     constructor(props: MealsProps) {
         super (props);
         this.state = {};
+        this.onClickAddMenu = this.onClickAddMenu.bind(this);
+    }
+    onClickAddMenu(e:object) {
+        const menu:ProvisionList = {
+            provisions: [],
+            label: "Nouveau menu",
+            note: "",
+        };
+        this.props.onAddMenu(menu);
     }
     render() {
         const { classes } = this.props;
@@ -40,6 +51,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
             <Hidden smDown>
               <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
             </Hidden>
+              { this.props.menus.map((menu) => (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <IconButton aria-label="supprimer"
@@ -49,14 +61,16 @@ class Meals extends React.Component<MealsProps,MealsState> {
                   <DeleteIcon />
                 </IconButton>
                 <Typography className={classes.heading}>
-                  Soupe aux choux
+                  { menu.label }
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Ingredients />
               </AccordionDetails>
             </Accordion>
-            <Button>Ajouter un plat</Button>
+              ))
+            }
+            <Button onClick={ this.onClickAddMenu }>Ajouter un plat</Button>
           </>
         )
       }
