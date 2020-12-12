@@ -18,10 +18,11 @@ interface Sideline {
 
 const Sidelines: React.FC<Props> = () => {
     const sides: Sideline[] = [
-        { label:'Petit déjeuner', id:'breakfast' }, 
-        { label:'Goutter',        id:'snack'     }, 
-        { label:'Apéro',          id:'aperitif'  }, 
-        { label:'Autres',         id:'others'    }, 
+        { label:'Petit déjeuner', id:'breakfast'          }, 
+        { label:'Goutter',        id:'snack'              }, 
+        { label:'Apéro',          id:'aperitif'           }, 
+        { label:'Entretien',      id:'household-products' }, 
+        { label:'Autres',         id:'others'             }, 
     ];
   return (
     <>
