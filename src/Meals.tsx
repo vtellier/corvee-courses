@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
     Typography,
+    TextField,
     Button,
     IconButton,
     Hidden,
@@ -22,13 +23,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type MealsProps = {
     meals: string[],
-    onAddMeal?: (meal:string) => void,
+    onAddMeal: (meal:string) => void,
 }
 
 function Meals(props:MealsProps) {
+    const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
     const onClickAddMenu = (e:object) => {
-        if(props.onAddMeal)
-            props.onAddMeal('Nouvelle recette');
+        if(textInput.current === null)
+            return;
+        props.onAddMeal(textInput.current.value.trim());
     };
     const classes = useStyles();
     return (
@@ -55,6 +58,7 @@ function Meals(props:MealsProps) {
         </Accordion>
           ))
         }
+        <TextField inputRef={textInput} label="Saisissez le nom du plat" />
         <Button onClick={ onClickAddMenu }>Ajouter un plat</Button>
       </>
     )
