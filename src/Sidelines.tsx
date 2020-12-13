@@ -21,7 +21,7 @@ const Sidelines: React.FC<Props> = () => {
         { label:'Petit déjeuner', id:'breakfast'          }, 
         { label:'Goutter',        id:'snack'              }, 
         { label:'Apéro',          id:'aperitif'           }, 
-        { label:'Entretien',      id:'household-products' }, 
+        { label:'Entretien',      id:'householdProducts' }, 
         { label:'Autres',         id:'others'             }, 
     ];
   return (
@@ -30,7 +30,7 @@ const Sidelines: React.FC<Props> = () => {
         <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>
       </Hidden>
         { sides.map((item) => (
-        <Accordion>
+        <Accordion key={'sideline-'+item.id}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             { item.label }
           </AccordionSummary>
