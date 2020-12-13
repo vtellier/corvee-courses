@@ -16,13 +16,6 @@ import Meals from './Meals';
 import Sidelines from './Sidelines';
 
 import './App.css';
-import {
-    AppState,
-    ProvisionList,
-    ShoppingSession,
-    defaultState,
-    defaultShoppingSession,
-} from './dataStructure';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -64,21 +57,22 @@ function App(props : AppProps) {
     const classes = useStyles();
     const steps = getSteps();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [shoppingSession, setShoppingSession] = React.useState(defaultShoppingSession());
+    //const [shoppingSession, setShoppingSession] = React.useState(defaultShoppingSession());
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
     };
 
-    const onAddMenu = (menu:ProvisionList):void => {
-        console.log('Adding a new menu');
-        //this.state.shoppingSession.menus.push(menu);
-    }
+    //const onAddMenu = (menu:ProvisionList):void => {
+    //    console.log('Adding a new menu');
+    //    //this.state.shoppingSession.menus.push(menu);
+    //}
 
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
-            return (<Meals menus={ shoppingSession.menus } onAddMenu={ onAddMenu } />);
+                //menus={ shoppingSession.menus } onAddMenu={ onAddMenu } 
+            return (<Meals />);
             case 1:
             return (<Sidelines />);
             case 2:
@@ -115,7 +109,7 @@ function App(props : AppProps) {
             <Stepper activeStep={activeStep} alternativeLabel nonLinear>
             {
                 steps.map((label, index) => (
-                    <Step key={label}>
+                    <Step key={'step-'+index}>
                         <StepButton onClick={ handleStep(index) }>
                             {label}
                         </StepButton>

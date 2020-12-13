@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { ProvisionList } from './dataStructure';
 import Ingredients from './Ingredients';
 
 const styles = (theme: Theme) => createStyles({
@@ -22,9 +21,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 type MealsProps = {
-    classes: any,
-    menus: ProvisionList[],
-    onAddMenu: (menu:ProvisionList) => void
+    classes?: any,
 }
 
 type MealsState = {
@@ -37,12 +34,12 @@ class Meals extends React.Component<MealsProps,MealsState> {
         this.onClickAddMenu = this.onClickAddMenu.bind(this);
     }
     onClickAddMenu(e:object) {
-        const menu:ProvisionList = {
-            provisions: [],
-            label: "Nouveau menu"+Math.random(),
-            note: "",
-        };
-        this.props.onAddMenu(menu);
+        //const menu:ProvisionList = {
+        //    provisions: [],
+        //    label: "Nouveau menu"+Math.random(),
+        //    note: "",
+        //};
+        //this.props.onAddMenu(menu);
     }
     render() {
         const { classes } = this.props;
@@ -51,7 +48,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
             <Hidden smDown>
               <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
             </Hidden>
-              { this.props.menus.map((menu, index) => (
+              { /*this.props.menus*/[].map((menu, index) => (
             <Accordion key={ 'meal-'+index }>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <IconButton aria-label="supprimer"
@@ -61,7 +58,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
                   <DeleteIcon />
                 </IconButton>
                 <Typography className={classes.heading}>
-                  { menu.label }
+                  { /*menu.label*/ }
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
