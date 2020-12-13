@@ -49,31 +49,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function getSteps() {
+const getSteps = () => {
     return [
         'Définition des repas',
         'Les à-côtés',
         'Récapitulatif'
     ];
-}
-function getStepContent(shoppingSession: ShoppingSession, step: number, onAddMenu: (arg:ProvisionList)=>void ) {
-    switch (step) {
-        case 0:
-        return (<Meals menus={ shoppingSession.menus } onAddMenu={ onAddMenu } />);
-        case 1:
-        return (<Sidelines />);
-        case 2:
-        return (
-            <div>
-                <Hidden smDown>
-                    <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
-                </Hidden>
-                <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
-            </div>
-        );
-        default:
-        return 'Unknown step';
-    }
 }
 
 type AppProps = {
@@ -94,6 +75,26 @@ function App(props : AppProps) {
         //this.state.shoppingSession.menus.push(menu);
     }
 
+    const getStepContent = () => {
+        switch (activeStep) {
+            case 0:
+            return (<Meals menus={ shoppingSession.menus } onAddMenu={ onAddMenu } />);
+            case 1:
+            return (<Sidelines />);
+            case 2:
+            return (
+                <div>
+                    <Hidden smDown>
+                        <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
+                    </Hidden>
+                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
+                </div>
+            );
+            default:
+            return 'Unknown step';
+        }
+    }
+
     return (
     <div>
         <AppBar position="static">
@@ -106,7 +107,7 @@ function App(props : AppProps) {
         <Container maxWidth="md" className={classes.container}>
 
         <Paper elevation={1} className={classes.paper}>
-            { getStepContent(shoppingSession, activeStep, onAddMenu) }
+            { getStepContent() }
         </Paper>
 
         </Container>
@@ -115,7 +116,7 @@ function App(props : AppProps) {
             {
                 steps.map((label, index) => (
                     <Step key={label}>
-                        <StepButton onClick={handleStep(index)}>
+                        <StepButton onClick={ handleStep(index) }>
                             {label}
                         </StepButton>
                     </Step>
