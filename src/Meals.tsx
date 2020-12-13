@@ -39,7 +39,7 @@ class Meals extends React.Component<MealsProps,MealsState> {
     onClickAddMenu(e:object) {
         const menu:ProvisionList = {
             provisions: [],
-            label: "Nouveau menu",
+            label: "Nouveau menu"+Math.random(),
             note: "",
         };
         this.props.onAddMenu(menu);
@@ -51,8 +51,8 @@ class Meals extends React.Component<MealsProps,MealsState> {
             <Hidden smDown>
               <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
             </Hidden>
-              { this.props.menus.map((menu) => (
-            <Accordion>
+              { this.props.menus.map((menu, index) => (
+            <Accordion key={ 'meal-'+index }>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <IconButton aria-label="supprimer"
                     onClick={(event) => event.stopPropagation()}
