@@ -31,39 +31,44 @@ export interface AppState {
     shoppingSession: ShoppingSession,
 }
 
-export function defaultState() {
+export function defaultShoppingSession():ShoppingSession {
     return {
-        activeStep: 0,
-        shoppingSession: {
-            menus: [],
-            sidelines: {
-                breakfast: {
-                    provisions: [],
-                    label: "Petit-Déjeuner",
-                    note: "",
-                },
-                snack: {
-                    provisions: [],
-                    label: "Goutter",
-                    note: "",
-                },
-                aperitif: {
-                    provisions: [],
-                    label: "Apéritif",
-                    note: "",
-                },
-                householdProducts: {
-                    provisions: [],
-                    label: "Entretien",
-                    note: "",
-                },
-            },
-            finalList: {
+        menus: [],
+        sidelines: {
+            breakfast: {
                 provisions: [],
-                label: "Liste des courses",
-                note: ""
+                label: "Petit-Déjeuner",
+                note: "",
+            },
+            snack: {
+                provisions: [],
+                label: "Goutter",
+                note: "",
+            },
+            aperitif: {
+                provisions: [],
+                label: "Apéritif",
+                note: "",
+            },
+            householdProducts: {
+                provisions: [],
+                label: "Entretien",
+                note: "",
             },
         },
+        finalList: {
+            provisions: [],
+            label: "Liste des courses",
+            note: ""
+        },
+    }
+}
+
+export function defaultState() {
+    const shoppingSession = defaultShoppingSession();
+    return {
+        activeStep: 0,
+        shoppingSession,
     };
 }
 

@@ -10,7 +10,7 @@ import {
     Step,
     StepButton,
 } from '@material-ui/core';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import Meals from './Meals';
 import Sidelines from './Sidelines';
@@ -18,11 +18,13 @@ import Sidelines from './Sidelines';
 import './App.css';
 import {
     AppState,
-    defaultState,
     ProvisionList,
+    ShoppingSession,
+    defaultState,
+    defaultShoppingSession,
 } from './dataStructure';
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -45,89 +47,84 @@ const styles = (theme: Theme) => createStyles({
     top: 'auto',
     bottom: 0,
   },
-});
+}));
 
-type AppProps = {
-    classes: any,
-};
-
-class App extends React.Component<AppProps,AppState> {
-    constructor(props:AppProps) {
-        super(props);
-        this.state = defaultState();
-        this.onAddMenu = this.onAddMenu.bind(this);
-    }
-    onAddMenu(menu:ProvisionList) {
-        console.log('Adding a new menu');
-        this.state.shoppingSession.menus.push(menu);
-    }
-    getSteps() {
-        return [
-            'Définition des repas',
-            'Les à-côtés',
-            'Récapitulatif'
-        ];
-    }
-    getStepContent(step: number, classes: any) {
-        switch (step) {
-            case 0:
-            return (<Meals menus={ this.state.shoppingSession.menus } onAddMenu={ this.onAddMenu } />);
-            case 1:
-            return (<Sidelines />);
-            case 2:
-            return (
-                <div>
-                    <Hidden smDown>
-                        <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
-                    </Hidden>
-                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
-                </div>
-            );
-            default:
-            return 'Unknown step';
-        }
-    }
-    render() {
-        const { classes } = this.props;
-        const steps = this.getSteps();
-    
-        const handleStep = (step: number) => () => {
-            console.log(step);
-            this.setState({ activeStep:step });
-        };
-    
+function getSteps() {
+    return [
+        'Définition des repas',
+        'Les à-côtés',
+        'Récapitulatif'
+    ];
+}
+function getStepContent(shoppingSession: ShoppingSession, step: number, onAddMenu: (arg:ProvisionList)=>void ) {
+    switch (step) {
+        case 0:
+        return (<Meals menus={ shoppingSession.menus } onAddMenu={ onAddMenu } />);
+        case 1:
+        return (<Sidelines />);
+        case 2:
         return (
-        <div>
-            <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" className={classes.title}>
-                    Ravitaillement
-                </Typography>
-            </Toolbar>
-            </AppBar>
-            <Container maxWidth="md" className={classes.container}>
-    
-            <Paper elevation={1} className={classes.paper}>
-                { this.getStepContent(this.state.activeStep, classes) }
-            </Paper>
-    
-            </Container>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Stepper activeStep={this.state.activeStep} alternativeLabel nonLinear>
-                {
-                    steps.map((label, index) => (
-                        <Step key={label}>
-                            <StepButton onClick={handleStep(index)}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))
-                }
-                </Stepper>
-            </AppBar>
-        </div>
+            <div>
+                <Hidden smDown>
+                    <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
+                </Hidden>
+                <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
+            </div>
         );
+        default:
+        return 'Unknown step';
     }
 }
 
-export default withStyles(styles)(App);
+type AppProps = {
+};
+
+function App(props : AppProps) {
+    const classes = useStyles();
+    const steps = getSteps();
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [shoppingSession, setShoppingSession] = React.useState(defaultShoppingSession());
+
+    const handleStep = (step: number) => () => {
+        setActiveStep(step);
+    };
+
+    const onAddMenu = (menu:ProvisionList):void => {
+        console.log('Adding a new menu');
+        //this.state.shoppingSession.menus.push(menu);
+    }
+
+    return (
+    <div>
+        <AppBar position="static">
+        <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+                Ravitaillement
+            </Typography>
+        </Toolbar>
+        </AppBar>
+        <Container maxWidth="md" className={classes.container}>
+
+        <Paper elevation={1} className={classes.paper}>
+            { getStepContent(shoppingSession, activeStep, onAddMenu) }
+        </Paper>
+
+        </Container>
+        <AppBar position="fixed" className={classes.appBar}>
+            <Stepper activeStep={activeStep} alternativeLabel nonLinear>
+            {
+                steps.map((label, index) => (
+                    <Step key={label}>
+                        <StepButton onClick={handleStep(index)}>
+                            {label}
+                        </StepButton>
+                    </Step>
+                ))
+            }
+            </Stepper>
+        </AppBar>
+    </div>
+    );
+}
+
+export default App;
