@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
     Typography,
@@ -11,66 +11,53 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Ingredients from './Ingredients';
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
     heading: {
       fontSize: theme.typography.pxToRem(15),
       flexBasis: '20%',
       flexShrink: 0,
       marginTop: 13,
     },
-});
+}));
 
 type MealsProps = {
-    classes?: any,
+    meals: string[],
+    onAddMeal?: (meal:string) => void,
 }
 
-type MealsState = {
+function Meals(props:MealsProps) {
+    const onClickAddMenu = (e:object) => {
+        if(props.onAddMeal)
+            props.onAddMeal('Nouvelle recette');
+    };
+    const classes = useStyles();
+    return (
+      <>
+        <Hidden smDown>
+          <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
+        </Hidden>
+          { props.meals.map((meal, index) => (
+        <Accordion key={ 'meal-'+index }>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <IconButton aria-label="supprimer"
+                onClick={(event) => event.stopPropagation()}
+                onFocus={(event) => event.stopPropagation()}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <Typography className={classes.heading}>
+              { meal }
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Ingredients />
+          </AccordionDetails>
+        </Accordion>
+          ))
+        }
+        <Button onClick={ onClickAddMenu }>Ajouter un plat</Button>
+      </>
+    )
 }
 
-class Meals extends React.Component<MealsProps,MealsState> {
-    constructor(props: MealsProps) {
-        super (props);
-        this.state = {};
-        this.onClickAddMenu = this.onClickAddMenu.bind(this);
-    }
-    onClickAddMenu(e:object) {
-        //const menu:ProvisionList = {
-        //    provisions: [],
-        //    label: "Nouveau menu"+Math.random(),
-        //    note: "",
-        //};
-        //this.props.onAddMenu(menu);
-    }
-    render() {
-        const { classes } = this.props;
-        return (
-          <>
-            <Hidden smDown>
-              <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
-            </Hidden>
-              { /*this.props.menus*/[].map((menu, index) => (
-            <Accordion key={ 'meal-'+index }>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <IconButton aria-label="supprimer"
-                    onClick={(event) => event.stopPropagation()}
-                    onFocus={(event) => event.stopPropagation()}
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <Typography className={classes.heading}>
-                  { /*menu.label*/ }
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Ingredients />
-              </AccordionDetails>
-            </Accordion>
-              ))
-            }
-            <Button onClick={ this.onClickAddMenu }>Ajouter un plat</Button>
-          </>
-        )
-      }
-}
-
-export default withStyles(styles)(Meals)
+export default Meals

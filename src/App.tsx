@@ -57,22 +57,22 @@ function App(props : AppProps) {
     const classes = useStyles();
     const steps = getSteps();
     const [activeStep, setActiveStep] = React.useState(0);
-    //const [shoppingSession, setShoppingSession] = React.useState(defaultShoppingSession());
+    const [meals, setMeals] = React.useState<string[]>([]);
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
     };
 
-    //const onAddMenu = (menu:ProvisionList):void => {
-    //    console.log('Adding a new menu');
-    //    //this.state.shoppingSession.menus.push(menu);
-    //}
+    const onAddMeal = (meal:string) => {
+        //console.log("got a new meal to add:", meal);
+        setMeals(oldMeals => [meal, ...oldMeals]);
+        console.log('Added');
+    }
 
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
-                //menus={ shoppingSession.menus } onAddMenu={ onAddMenu } 
-            return (<Meals />);
+            return (<Meals meals={meals} onAddMeal={onAddMeal} />);
             case 1:
             return (<Sidelines />);
             case 2:
@@ -81,9 +81,7 @@ function App(props : AppProps) {
                     <Hidden smDown>
                         <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
                     </Hidden>
-                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
-                </div>
-            );
+                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span> </div>);
             default:
             return 'Unknown step';
         }
