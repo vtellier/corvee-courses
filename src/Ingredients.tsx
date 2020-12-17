@@ -34,6 +34,13 @@ function Ingredients (props: IngredientsProps) {
         }
         setAdding(false);
     }
+    const onClickCancel = (e:object):void => {
+        setAdding(false);
+        setValidAddForm(true);
+        if( textLabelInput.current !== null ) {
+            textLabelInput.current.value = "";
+        }
+    }
     return (
         <List>
             { props.ingredients !== undefined ?
@@ -62,6 +69,7 @@ function Ingredients (props: IngredientsProps) {
                     error={ !validAddForm }
                 />
                 <Button onClick={ onClickOk } disabled={ !validAddForm }>Ok</Button>
+                <Button onClick={ onClickCancel }>Cancel</Button>
             </ListItem>
             ) : (
             <Fab color="primary" aria-label="add">
