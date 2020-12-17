@@ -23,15 +23,17 @@ function Ingredients (props: IngredientsProps) {
     const onChangeLabel:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setValidAddForm(e.currentTarget.value.trim() !== "");
     }
-    const onClickOk = (e:object):void => {
-        if( textLabelInput.current !== null ) {
-            const ingredient:Ingredient = {
-                label: textLabelInput.current.value
-            };
-            console.log(ingredient);
-            if(props.onAddIngredient !== undefined)
-                props.onAddIngredient(ingredient);
-        }
+    const onClickOk:React.MouseEventHandler<HTMLButtonElement> = (e) => {
+        if( textLabelInput.current === null ) return;
+
+        const label = textLabelInput.current.value;
+        setValidAddForm(label !== "");
+
+        if(label === "") return;
+
+        const ingredient:Ingredient = { label };
+        if(props.onAddIngredient !== undefined)
+            props.onAddIngredient(ingredient);
         setAdding(false);
     }
     const onClickCancel = (e:object):void => {
@@ -53,23 +55,27 @@ function Ingredients (props: IngredientsProps) {
             }
             { adding ? (
             <ListItem>
-                <TextField
-                    id="quantity"
-                    label="Quantité"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                    id="label"
-                    inputRef={textLabelInput}
-                    label="Ingrédient"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{ onChange: onChangeLabel  }}
-                    error={ !validAddForm }
-                />
-                <Button onClick={ onClickOk } disabled={ !validAddForm }>Ok</Button>
-                <Button onClick={ onClickCancel }>Cancel</Button>
+                <form
+                    onSubmit={ (e) => { e.stopPropagation(); e.preventDefault(); } }
+                >
+                    <TextField
+                        id="quantity"
+                        label="Quantité"
+                        type="text"
+                        InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                        id="label"
+                        inputRef={textLabelInput}
+                        label="Ingrédient"
+                        type="text"
+                        InputLabelProps={{ shrink: true }}
+                        InputProps={{ onChange: onChangeLabel  }}
+                        error={ !validAddForm }
+                    />
+                    <Button type="submit" onClick={ onClickOk } disabled={ !validAddForm }>Ok</Button>
+                    <Button onClick={ onClickCancel }>Cancel</Button>
+                </form>
             </ListItem>
             ) : (
             <Fab color="primary" aria-label="add">
