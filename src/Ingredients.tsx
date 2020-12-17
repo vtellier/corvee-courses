@@ -10,56 +10,43 @@ import AddIcon from '@material-ui/icons/Add';
 type IngredientsProps = {
 }
 
-type IngredientsState = {
-    adding: boolean,
-}
-
-class Ingredients extends React.Component<IngredientsProps, IngredientsState> {
-    constructor(props:IngredientsProps) {
-        super(props);
-        this.state = {
-            adding: false,
-        };
-        this.onClickAdd = this.onClickAdd.bind(this);
-        this.onClickOk  = this.onClickOk.bind(this);
+function Ingredients (props: IngredientsProps) {
+    const [ adding, setAdding ] = React.useState(true);
+    const onClickAdd = (e:object):void => {
+        setAdding(true);
     }
-    onClickAdd(e:object):void {
-        this.setState({ adding: true });
+    const onClickOk = (e:object):void => {
+        setAdding(false);
     }
-    onClickOk(e:object):void {
-        this.setState({ adding: false });
-    }
-    render () {
-        return (
-            <List>
-                <ListItem>
-                1
-                Oignons
-                </ListItem>
-                { this.state.adding ? (
-                <ListItem>
-                  <TextField
-                    id="quantity"
-                    label="Quantité"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <TextField
-                    id="quantity"
-                    label="Ingrédient"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <Button onClick={ this.onClickOk }>Ok</Button>
-                </ListItem>
-                ) : (
-                <Fab color="primary" aria-label="add">
-                  <AddIcon onClick={ this.onClickAdd } />
-                </Fab>
-                ) }
-            </List>
-        );
-    }
+    return (
+        <List>
+            <ListItem>
+            1
+            Oignons
+            </ListItem>
+            { adding ? (
+            <ListItem>
+                <TextField
+                id="quantity"
+                label="Quantité"
+                type="text"
+                InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                id="quantity"
+                label="Ingrédient"
+                type="text"
+                InputLabelProps={{ shrink: true }}
+                />
+                <Button onClick={ onClickOk }>Ok</Button>
+            </ListItem>
+            ) : (
+            <Fab color="primary" aria-label="add">
+                <AddIcon onClick={ onClickAdd } />
+            </Fab>
+            ) }
+        </List>
+    );
 }
 
 export default Ingredients;
