@@ -15,9 +15,13 @@ type IngredientsProps = {
 
 function Ingredients (props: IngredientsProps) {
     const [ adding, setAdding ] = React.useState(true);
+    const [ validAddForm, setValidAddForm ] = React.useState(true);
     const textLabelInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
     const onClickAdd = (e:object):void => {
         setAdding(true);
+    }
+    const onChangeLabel:React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setValidAddForm(e.currentTarget.value.trim() !== "");
     }
     const onClickOk = (e:object):void => {
         if( textLabelInput.current !== null ) {
@@ -54,8 +58,10 @@ function Ingredients (props: IngredientsProps) {
                     label="Ingrédient"
                     type="text"
                     InputLabelProps={{ shrink: true }}
+                    InputProps={{ onChange: onChangeLabel  }}
+                    error={ !validAddForm }
                 />
-                <Button onClick={ onClickOk }>Ok</Button>
+                <Button onClick={ onClickOk } disabled={ !validAddForm }>Ok</Button>
             </ListItem>
             ) : (
             <Fab color="primary" aria-label="add">
