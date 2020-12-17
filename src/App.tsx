@@ -15,6 +15,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Meals from './Meals';
 import Sidelines from './Sidelines';
 
+import { Recipe } from './dataStructure';
+
 import './App.css';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -57,22 +59,31 @@ function App(props : AppProps) {
     const classes = useStyles();
     const steps = getSteps();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [meals, setMeals] = React.useState<string[]>([]);
+    const [meals, setMeals] = React.useState<Recipe[]>([]);
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
     };
 
-    const onAddMeal = (meal:string) => {
-        //console.log("got a new meal to add:", meal);
+    const onAddMeal = (meal:Recipe) => {
+        console.log("got a new meal to add:", meal);
         setMeals(oldMeals => [meal, ...oldMeals]);
         console.log('Added');
+    }
+
+    const onRemoveMeal = (index:number) => {
+        console.log('Got request to remove meal at index ', index);
+        setMeals(oldMeals => [...oldMeals.slice(0,index), ...oldMeals.slice(index+1)]);
     }
 
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
-            return (<Meals meals={meals} onAddMeal={onAddMeal} />);
+            return (<Meals
+                        meals={meals}
+                        onAddMeal={onAddMeal}
+                        onRemoveMeal={onRemoveMeal}
+                    />);
             case 1:
             return (<Sidelines />);
             case 2:

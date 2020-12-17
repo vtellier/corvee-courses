@@ -11,6 +11,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Ingredients from './Ingredients';
+import { Recipe } from './dataStructure';
 
 const useStyles = makeStyles((theme: Theme) => ({
     heading: {
@@ -22,8 +23,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type MealsProps = {
-    meals: string[],
-    onAddMeal: (meal:string) => void,
+    meals: Recipe[],
+    onAddMeal: (meal:Recipe) => void,
+    onRemoveMeal: (index:number) => void,
 }
 
 function Meals(props:MealsProps) {
@@ -31,8 +33,15 @@ function Meals(props:MealsProps) {
     const onClickAddMenu = (e:object) => {
         if(textInput.current === null)
             return;
-        props.onAddMeal(textInput.current.value.trim());
+        const meal:Recipe = {
+            label: textInput.current.value.trim()
+        }
+        props.onAddMeal(meal);
+        textInput.current.value = "";
     };
+    const onClickRemoveMenu = (index:number) => {
+        props.onRemoveMeal(index);
+    }
     const classes = useStyles();
     return (
       <>
@@ -43,13 +52,13 @@ function Meals(props:MealsProps) {
         <Accordion key={ 'meal-'+index }>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <IconButton aria-label="supprimer"
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) => { event.stopPropagation(); onClickRemoveMenu(index); }}
                 onFocus={(event) => event.stopPropagation()}
             >
               <DeleteIcon />
             </IconButton>
             <Typography className={classes.heading}>
-              { meal }
+              { meal.label }
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
