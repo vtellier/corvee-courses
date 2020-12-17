@@ -55,9 +55,7 @@ function Ingredients (props: IngredientsProps) {
             }
             { adding ? (
             <ListItem>
-                <form
-                    onSubmit={ (e) => { e.stopPropagation(); e.preventDefault(); } }
-                >
+                <form onSubmit={ (e) => { e.stopPropagation(); e.preventDefault(); } } >
                     <TextField
                         id="quantity"
                         label="Quantité"

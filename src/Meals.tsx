@@ -30,12 +30,18 @@ type MealsProps = {
 }
 
 function Meals(props:MealsProps) {
+    const [ validAddForm, setValidAddForm ] = React.useState(true);
     const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
     const onClickAddMenu = (e:object) => {
-        if(textInput.current === null)
-            return;
+        if(textInput.current === null) return;
+
+        const label = textInput.current.value.trim();
+        setValidAddForm(label !== "");
+
+        if(label === '') return;
+
         const meal:Recipe = {
-            label: textInput.current.value.trim(),
+            label,
             ingredients: []
         }
         props.onAddMeal(meal);
@@ -47,6 +53,9 @@ function Meals(props:MealsProps) {
     const onAddIngredient = (ingredient: Ingredient, mealIndex:number) => {
         console.log('Adding ingredient to menu', mealIndex);
         props.onAddIngredientToMeal(ingredient, mealIndex);
+    }
+    const onAddMealLabelChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setValidAddForm(e.currentTarget.value.trim() !== "");
     }
     const classes = useStyles();
     return (
@@ -76,8 +85,15 @@ function Meals(props:MealsProps) {
         </Accordion>
           ))
         }
-        <TextField inputRef={textInput} label="Saisissez le nom du plat" />
-        <Button onClick={ onClickAddMenu }>Ajouter un plat</Button>
+        <form onSubmit={ (e) => { e.stopPropagation(); e.preventDefault(); } } >
+            <TextField
+                inputRef={textInput}
+                label="Saisissez le nom du plat"
+                error={ !validAddForm }
+                onChange={ onAddMealLabelChange }
+            />
+            <Button type="submit" onClick={ onClickAddMenu }>Ajouter un plat</Button>
+        </form>
       </>
     )
 }
