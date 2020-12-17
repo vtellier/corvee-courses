@@ -1,5 +1,6 @@
 
 export interface Recipe {
-    label: string
+    label: string,
+    ingredients: string[]
 }
 

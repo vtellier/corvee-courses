@@ -6,8 +6,10 @@ import {
     TextField
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import { Ingredient } from './dataStructure';
 
 type IngredientsProps = {
+    ingredients?: string[]
 }
 
 function Ingredients (props: IngredientsProps) {
@@ -20,10 +22,13 @@ function Ingredients (props: IngredientsProps) {
     }
     return (
         <List>
-            <ListItem>
-            1
-            Oignons
-            </ListItem>
+            { props.ingredients !== undefined ?
+              props.ingredients.map( (ingredient, index) => (
+                    <ListItem key={'ingredient-'+index}>
+                    { ingredient }
+                    </ListItem>
+            )) : (<span>Veuillez saisir les ingrédients</span>)
+            }
             { adding ? (
             <ListItem>
                 <TextField

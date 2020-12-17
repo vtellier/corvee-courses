@@ -34,7 +34,8 @@ function Meals(props:MealsProps) {
         if(textInput.current === null)
             return;
         const meal:Recipe = {
-            label: textInput.current.value.trim()
+            label: textInput.current.value.trim(),
+            ingredients: []
         }
         props.onAddMeal(meal);
         textInput.current.value = "";
@@ -62,7 +63,7 @@ function Meals(props:MealsProps) {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Ingredients />
+            <Ingredients ingredients={meal.ingredients} />
           </AccordionDetails>
         </Accordion>
           ))
