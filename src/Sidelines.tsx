@@ -6,36 +6,30 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import { Ingredient, Sideline } from './dataStructure';
 import Ingredients from './Ingredients';
 
 interface Props {
+    sidelines:Sideline,
+    onAddIngredient: (sidelineId:string, ingredient:Ingredient) => void
 }
 
-interface Sideline {
-    label: string,
-    id: string,
-}
-
-const Sidelines: React.FC<Props> = () => {
-    const sides: Sideline[] = [
-        { label:'Petit déjeuner', id:'breakfast'          }, 
-        { label:'Goutter',        id:'snack'              }, 
-        { label:'Apéro',          id:'aperitif'           }, 
-        { label:'Entretien',      id:'householdProducts' }, 
-        { label:'Autres',         id:'others'             }, 
-    ];
+const Sidelines: React.FC<Props> = (props) => {
   return (
     <>
       <Hidden smDown>
         <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>
       </Hidden>
-        { sides.map((item) => (
-        <Accordion key={'sideline-'+item.id}>
+        { Object.entries(props.sidelines).map(([key,item]) => (
+        <Accordion key={'sideline-'+key}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             { item.label }
           </AccordionSummary>
           <AccordionDetails>
-            <Ingredients ingredients={[]} />
+            <Ingredients
+                ingredients={ item.ingredients }
+                onAddIngredient={ (ingredient:Ingredient) => props.onAddIngredient(key, ingredient) }
+            />
           </AccordionDetails>
         </Accordion>
         )) }

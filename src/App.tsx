@@ -15,7 +15,12 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Meals from './Meals';
 import Sidelines from './Sidelines';
 
-import { Recipe, Ingredient } from './dataStructure';
+import {
+    Recipe,
+    Ingredient,
+    Sideline,
+    defaultSidelines
+} from './dataStructure';
 
 import './App.css';
 
@@ -59,12 +64,14 @@ function App(props : AppProps) {
     const classes = useStyles();
     const steps = getSteps();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [meals, setMeals] = React.useState<Recipe[]>([]);
+    const [meals, setMeals]           = React.useState<Recipe[]>([]);
+    const [sidelines, setSidelines]   = React.useState<Sideline>(defaultSidelines);
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
     };
 
+    // ******************** Meals ***********************
     const onAddMeal = (meal:Recipe) => {
         console.log("got a new meal to add:", meal);
         setMeals(oldMeals => [meal, ...oldMeals]);
@@ -91,6 +98,21 @@ function App(props : AppProps) {
             return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
         });
     }
+    // ******************** /Meals ***********************
+
+    // ******************** Sidelines ***********************
+    const onAddIngredientToSideline = (sidelineId:string, ingredient:Ingredient) => {
+        setSidelines((oldSidelines:Sideline) => {
+            console.log('Adding ingredient to', sidelineId);
+            let clone = Object.assign(oldSidelines, {});
+            if(sidelineId in clone) {
+                clone[sidelineId as keyof typeof clone].ingredients =
+                    [...clone[sidelineId as keyof typeof clone].ingredients, ingredient];
+            }
+            return clone;
+        });
+    }
+    // ******************** /Sidelines ***********************
 
     const getStepContent = () => {
         switch (activeStep) {
@@ -103,7 +125,10 @@ function App(props : AppProps) {
                         onRemoveIngredientFromMeal={onRemoveIngredientFromMeal}
                     />);
             case 1:
-            return (<Sidelines />);
+            return (<Sidelines
+                        onAddIngredient={onAddIngredientToSideline} 
+                        sidelines={sidelines}
+                    />);
             case 2:
             return (
                 <div>

@@ -11,7 +11,7 @@ import { Ingredient } from './dataStructure';
 
 type IngredientsProps = {
     ingredients: Ingredient[],
-    onAddIngredient?: (ingredient:Ingredient) => void
+    onAddIngredient: (ingredient:Ingredient) => void
     onRemoveIngredient?: (index:number) => void
 }
 
