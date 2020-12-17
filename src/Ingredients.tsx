@@ -1,16 +1,18 @@
 import React, { createRef } from 'react'
 import {
-    List, ListItem,
-    Button,
+    List, ListItem, ListItemText, ListItemSecondaryAction,
+    Button, IconButton,
     Fab,
     TextField
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Ingredient } from './dataStructure';
 
 type IngredientsProps = {
     ingredients: Ingredient[],
     onAddIngredient?: (ingredient:Ingredient) => void
+    onRemoveIngredient?: (index:number) => void
 }
 
 function Ingredients (props: IngredientsProps) {
@@ -43,12 +45,25 @@ function Ingredients (props: IngredientsProps) {
             textLabelInput.current.value = "";
         }
     }
+    const onClickRemoveIngredient = (index:number):void => {
+        if(props.onRemoveIngredient)
+            props.onRemoveIngredient(index);
+    }
+
     return (
         <List>
             { props.ingredients.length > 0 ?
               props.ingredients.map( (ingredient, index) => (
                     <ListItem key={'ingredient-'+index}>
-                    { ingredient.label }
+                        <ListItemText
+                          primary={ ingredient.label }
+                          secondary={ 'Secondary text' }
+                        />
+                        <ListItemSecondaryAction>
+                          <IconButton edge="end" aria-label="delete" onClick={ e => onClickRemoveIngredient(index) }>
+                            <DeleteIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
                     </ListItem>
                 )
               ) : (<span>Veuillez saisir les ingrédients</span>)

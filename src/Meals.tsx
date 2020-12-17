@@ -27,6 +27,7 @@ type MealsProps = {
     onAddMeal: (meal:Recipe) => void,
     onRemoveMeal: (index:number) => void,
     onAddIngredientToMeal: (ingredient:Ingredient, mealIndex: number) => void,
+    onRemoveIngredientFromMeal: (ingredientIndex:number, mealIndex: number) => void,
 }
 
 function Meals(props:MealsProps) {
@@ -80,6 +81,7 @@ function Meals(props:MealsProps) {
             <Ingredients
                 ingredients={meal.ingredients}
                 onAddIngredient={ (ingredient:Ingredient) => onAddIngredient(ingredient,index) }
+                onRemoveIngredient={ (ingredientIndex:number) => props.onRemoveIngredientFromMeal(ingredientIndex, index) }
             />
           </AccordionDetails>
         </Accordion>

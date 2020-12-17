@@ -84,6 +84,14 @@ function App(props : AppProps) {
         });
     }
 
+    const onRemoveIngredientFromMeal = (ingredientIndex: number, mealIndex:number) => {
+        setMeals(oldMeals => {
+            let meal = Object.assign(oldMeals[mealIndex], {});
+            meal.ingredients = [...meal.ingredients.slice(0, ingredientIndex), ...meal.ingredients.slice(ingredientIndex+1)];
+            return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
+        });
+    }
+
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
@@ -92,6 +100,7 @@ function App(props : AppProps) {
                         onAddMeal={onAddMeal}
                         onRemoveMeal={onRemoveMeal}
                         onAddIngredientToMeal={onAddIngredientToMeal}
+                        onRemoveIngredientFromMeal={onRemoveIngredientFromMeal}
                     />);
             case 1:
             return (<Sidelines />);
