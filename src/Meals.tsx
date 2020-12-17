@@ -11,7 +11,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Ingredients from './Ingredients';
-import { Recipe } from './dataStructure';
+import { Recipe, Ingredient } from './dataStructure';
 
 const useStyles = makeStyles((theme: Theme) => ({
     heading: {
@@ -26,6 +26,7 @@ type MealsProps = {
     meals: Recipe[],
     onAddMeal: (meal:Recipe) => void,
     onRemoveMeal: (index:number) => void,
+    onAddIngredientToMeal: (ingredient:Ingredient, mealIndex: number) => void,
 }
 
 function Meals(props:MealsProps) {
@@ -42,6 +43,10 @@ function Meals(props:MealsProps) {
     };
     const onClickRemoveMenu = (index:number) => {
         props.onRemoveMeal(index);
+    }
+    const onAddIngredient = (ingredient: Ingredient, mealIndex:number) => {
+        console.log('Adding ingredient to menu', mealIndex);
+        props.onAddIngredientToMeal(ingredient, mealIndex);
     }
     const classes = useStyles();
     return (
@@ -63,7 +68,10 @@ function Meals(props:MealsProps) {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Ingredients ingredients={meal.ingredients} />
+            <Ingredients
+                ingredients={meal.ingredients}
+                onAddIngredient={ (ingredient:Ingredient) => onAddIngredient(ingredient,index) }
+            />
           </AccordionDetails>
         </Accordion>
           ))

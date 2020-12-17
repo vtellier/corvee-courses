@@ -15,7 +15,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Meals from './Meals';
 import Sidelines from './Sidelines';
 
-import { Recipe } from './dataStructure';
+import { Recipe, Ingredient } from './dataStructure';
 
 import './App.css';
 
@@ -76,6 +76,14 @@ function App(props : AppProps) {
         setMeals(oldMeals => [...oldMeals.slice(0,index), ...oldMeals.slice(index+1)]);
     }
 
+    const onAddIngredientToMeal = (ingredient: Ingredient, mealIndex:number) => {
+        setMeals(oldMeals => {
+            let meal = Object.assign(oldMeals[mealIndex], {});
+            meal.ingredients = [...meal.ingredients, ingredient];
+            return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
+        });
+    }
+
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
@@ -83,6 +91,7 @@ function App(props : AppProps) {
                         meals={meals}
                         onAddMeal={onAddMeal}
                         onRemoveMeal={onRemoveMeal}
+                        onAddIngredientToMeal={onAddIngredientToMeal}
                     />);
             case 1:
             return (<Sidelines />);
