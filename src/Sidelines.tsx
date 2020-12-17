@@ -35,7 +35,7 @@ const Sidelines: React.FC<Props> = () => {
             { item.label }
           </AccordionSummary>
           <AccordionDetails>
-            <Ingredients />
+            <Ingredients ingredients={[]} />
           </AccordionDetails>
         </Accordion>
         )) }

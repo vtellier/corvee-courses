@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { Ingredient } from './dataStructure';
 
 type IngredientsProps = {
-    ingredients?: Ingredient[],
+    ingredients: Ingredient[],
     onAddIngredient?: (ingredient:Ingredient) => void
 }
 
@@ -45,7 +45,7 @@ function Ingredients (props: IngredientsProps) {
     }
     return (
         <List>
-            { props.ingredients !== undefined ?
+            { props.ingredients.length > 0 ?
               props.ingredients.map( (ingredient, index) => (
                     <ListItem key={'ingredient-'+index}>
                     { ingredient.label }
