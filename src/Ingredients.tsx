@@ -12,7 +12,7 @@ import { Ingredient } from './dataStructure';
 type IngredientsProps = {
     ingredients: Ingredient[],
     onAddIngredient: (ingredient:Ingredient) => void
-    onRemoveIngredient?: (index:number) => void
+    onRemoveIngredient: (index:number) => void
 }
 
 function Ingredients (props: IngredientsProps) {

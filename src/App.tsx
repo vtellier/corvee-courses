@@ -100,7 +100,7 @@ function App(props : AppProps) {
     }
     // ******************** /Meals ***********************
 
-    // ******************** Sidelines ***********************
+    // ******************* Sidelines *********************
     const onAddIngredientToSideline = (sidelineId:string, ingredient:Ingredient) => {
         setSidelines((oldSidelines:Sideline) => {
             console.log('Adding ingredient to', sidelineId);
@@ -108,6 +108,20 @@ function App(props : AppProps) {
             if(sidelineId in clone) {
                 clone[sidelineId as keyof typeof clone].ingredients =
                     [...clone[sidelineId as keyof typeof clone].ingredients, ingredient];
+            }
+            return clone;
+        });
+    }
+
+    const onRemoveIngredientFromSideline = (sidelineId:string, ingredientIndex:number) => {
+        setSidelines((oldSidelines:Sideline) => {
+            console.log('Removing ingredient from', sidelineId);
+            let clone = Object.assign(oldSidelines, {});
+            if(sidelineId in clone) {
+                clone[sidelineId as keyof typeof clone].ingredients = [
+                    ...clone[sidelineId as keyof typeof clone].ingredients.slice(0, ingredientIndex),
+                    ...clone[sidelineId as keyof typeof clone].ingredients.slice(ingredientIndex+1)
+                ];
             }
             return clone;
         });
@@ -127,6 +141,7 @@ function App(props : AppProps) {
             case 1:
             return (<Sidelines
                         onAddIngredient={onAddIngredientToSideline} 
+                        onRemoveIngredient={onRemoveIngredientFromSideline}
                         sidelines={sidelines}
                     />);
             case 2:

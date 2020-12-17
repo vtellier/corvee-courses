@@ -11,7 +11,8 @@ import Ingredients from './Ingredients';
 
 interface Props {
     sidelines:Sideline,
-    onAddIngredient: (sidelineId:string, ingredient:Ingredient) => void
+    onAddIngredient: (sidelineId:string, ingredient:Ingredient) => void,
+    onRemoveIngredient: (sidelineId:string, key:number) => void,
 }
 
 const Sidelines: React.FC<Props> = (props) => {
@@ -29,6 +30,7 @@ const Sidelines: React.FC<Props> = (props) => {
             <Ingredients
                 ingredients={ item.ingredients }
                 onAddIngredient={ (ingredient:Ingredient) => props.onAddIngredient(key, ingredient) }
+                onRemoveIngredient={ (index:number) => props.onRemoveIngredient(key, index) }
             />
           </AccordionDetails>
         </Accordion>
