@@ -11,6 +11,10 @@ import {
     StepButton,
 } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import {
+  atom,
+  useRecoilState,
+} from 'recoil';
 
 import Meals from './Meals';
 import Sidelines from './Sidelines';
@@ -18,8 +22,7 @@ import Sidelines from './Sidelines';
 import {
     Recipe,
     Ingredient,
-    Sideline,
-    defaultSidelines
+    mealsState,
 } from './dataStructure';
 
 import './App.css';
@@ -61,11 +64,12 @@ type AppProps = {
 };
 
 function App(props : AppProps) {
+    const activeStepState = atom({ key:'activeStep', default: 0 });
+
     const classes = useStyles();
     const steps = getSteps();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [meals, setMeals]           = React.useState<Recipe[]>([]);
-    const [sidelines, setSidelines]   = React.useState<Sideline>(defaultSidelines);
+    const [activeStep, setActiveStep] = useRecoilState<number>(activeStepState);
+    const [meals, setMeals]           = useRecoilState<Recipe[]>(mealsState());
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
@@ -100,34 +104,6 @@ function App(props : AppProps) {
     }
     // ******************** /Meals ***********************
 
-    // ******************* Sidelines *********************
-    const onAddIngredientToSideline = (sidelineId:string, ingredient:Ingredient) => {
-        setSidelines((oldSidelines:Sideline) => {
-            console.log('Adding ingredient to', sidelineId);
-            let clone = Object.assign(oldSidelines, {});
-            if(sidelineId in clone) {
-                clone[sidelineId as keyof typeof clone].ingredients =
-                    [...clone[sidelineId as keyof typeof clone].ingredients, ingredient];
-            }
-            return clone;
-        });
-    }
-
-    const onRemoveIngredientFromSideline = (sidelineId:string, ingredientIndex:number) => {
-        setSidelines((oldSidelines:Sideline) => {
-            console.log('Removing ingredient from', sidelineId);
-            let clone = Object.assign(oldSidelines, {});
-            if(sidelineId in clone) {
-                clone[sidelineId as keyof typeof clone].ingredients = [
-                    ...clone[sidelineId as keyof typeof clone].ingredients.slice(0, ingredientIndex),
-                    ...clone[sidelineId as keyof typeof clone].ingredients.slice(ingredientIndex+1)
-                ];
-            }
-            return clone;
-        });
-    }
-    // ******************** /Sidelines ***********************
-
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
@@ -139,11 +115,7 @@ function App(props : AppProps) {
                         onRemoveIngredientFromMeal={onRemoveIngredientFromMeal}
                     />);
             case 1:
-            return (<Sidelines
-                        onAddIngredient={onAddIngredientToSideline} 
-                        onRemoveIngredient={onRemoveIngredientFromSideline}
-                        sidelines={sidelines}
-                    />);
+            return (<Sidelines />);
             case 2:
             return (
                 <div>

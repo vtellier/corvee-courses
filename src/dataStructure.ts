@@ -1,3 +1,7 @@
+import {
+    atom,
+    RecoilState,
+} from 'recoil';
 
 export interface Recipe {
     label: string,
@@ -9,22 +13,24 @@ export interface Ingredient {
     label: string
 }
 
-export interface Sideline {
-    breakfast:Recipe,
-    snack:Recipe,
-    aperitif:Recipe,
-    householdProducts:Recipe,
-    others:Recipe,
+export function mealsState():RecoilState<Recipe[]> {
+    return atom<Recipe[]>({ key: 'meals', default: [] });
 }
 
-export function defaultSidelines():Sideline {
-    const newRecipe = (label:string):Recipe => ({ label, ingredients:[] });
-    return {
-        breakfast:         newRecipe('Petit déjeuner'),
-        snack:             newRecipe('Goutter'),
-        aperitif:          newRecipe('Apéro'),
-        householdProducts: newRecipe('Entretien'),
-        others:            newRecipe('Autres'),
-    };
+export function sidelinesStates():RecoilState<Recipe>[] {
+    const newRecipe = (key:string, label:string):RecoilState<Recipe> => {
+        const defaultR:Recipe = {
+            label,
+            ingredients:[]
+        };
+        return atom({ key, default: defaultR });
+    }
+    return [
+        newRecipe('sideline_breakfast',         'Petit déjeuner'),
+        newRecipe('sideline_snack',             'Goutter'),
+        newRecipe('sideline_aperitif',          'Apéro'),
+        newRecipe('sideline_householdProducts', 'Entretien'),
+        newRecipe('sideline_others',            'Autres'),
+    ];
 }
 
