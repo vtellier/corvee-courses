@@ -10,7 +10,8 @@ export interface Recipe {
 
 
 export interface Ingredient {
-    label: string
+    label: string,
+    quantity: string,
 }
 
 export const mealsState:RecoilState<Recipe[]> = atom<Recipe[]>({ key: 'meals', default: [] });

@@ -19,6 +19,7 @@ function Ingredients (props: IngredientsProps) {
     const [ validAddForm, setValidAddForm ] = React.useState(true);
     const [ ingredients, setIngredients ] = useRecoilState(props.ingredients);
     const textLabelInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
+    const quantityInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
     const onClickAdd = (e:object):void => {
         setAdding(true);
     }
@@ -27,13 +28,16 @@ function Ingredients (props: IngredientsProps) {
     }
     const onClickOk:React.MouseEventHandler<HTMLButtonElement> = (e) => {
         if( textLabelInput.current === null ) return;
+        if( quantityInput.current === null ) return;
 
-        const label = textLabelInput.current.value;
+        const label = textLabelInput.current.value.trim();
+        const quantity = quantityInput.current.value.trim();
+
         setValidAddForm(label !== "");
 
         if(label === "") return;
 
-        const ingredient:Ingredient = { label };
+        const ingredient:Ingredient = { label, quantity };
         setIngredients(oldIngredients => [...oldIngredients, ingredient]);
         setAdding(false);
     }
@@ -55,7 +59,7 @@ function Ingredients (props: IngredientsProps) {
                     <ListItem key={'ingredient-'+index}>
                         <ListItemText
                             primary={ ingredient.label }
-                            secondary={ '' }
+                            secondary={ ingredient.quantity }
                         />
                         <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="delete" onClick={ e => onClickRemoveIngredient(index) }>
@@ -70,12 +74,6 @@ function Ingredients (props: IngredientsProps) {
             <ListItem>
                 <form onSubmit={ (e) => { e.stopPropagation(); e.preventDefault(); } } >
                     <TextField
-                        id="quantity"
-                        label="Quantité"
-                        type="text"
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
                         id="label"
                         inputRef={textLabelInput}
                         label="Ingrédient"
@@ -83,6 +81,13 @@ function Ingredients (props: IngredientsProps) {
                         InputLabelProps={{ shrink: true }}
                         InputProps={{ onChange: onChangeLabel  }}
                         error={ !validAddForm }
+                    />
+                    <TextField
+                        id="quantity"
+                        inputRef={quantityInput}
+                        label="Quantité"
+                        type="text"
+                        InputLabelProps={{ shrink: true }}
                     />
                     <Button type="submit" onClick={ onClickOk } disabled={ !validAddForm }>Ok</Button>
                     <Button onClick={ onClickCancel }>Cancel</Button>
