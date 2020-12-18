@@ -19,12 +19,6 @@ import {
 import Meals from './Meals';
 import Sidelines from './Sidelines';
 
-import {
-    Recipe,
-    Ingredient,
-    mealsState,
-} from './dataStructure';
-
 import './App.css';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -63,57 +57,22 @@ const getSteps = () => {
 type AppProps = {
 };
 
+const activeStepState = atom({ key:'activeStep', default: 0 });
+
 function App(props : AppProps) {
-    const activeStepState = atom({ key:'activeStep', default: 0 });
 
     const classes = useStyles();
     const steps = getSteps();
     const [activeStep, setActiveStep] = useRecoilState<number>(activeStepState);
-    const [meals, setMeals]           = useRecoilState<Recipe[]>(mealsState());
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
     };
 
-    // ******************** Meals ***********************
-    const onAddMeal = (meal:Recipe) => {
-        console.log("got a new meal to add:", meal);
-        setMeals(oldMeals => [meal, ...oldMeals]);
-        console.log('Added');
-    }
-
-    const onRemoveMeal = (index:number) => {
-        console.log('Got request to remove meal at index ', index);
-        setMeals(oldMeals => [...oldMeals.slice(0,index), ...oldMeals.slice(index+1)]);
-    }
-
-    const onAddIngredientToMeal = (ingredient: Ingredient, mealIndex:number) => {
-        setMeals(oldMeals => {
-            let meal = Object.assign(oldMeals[mealIndex], {});
-            meal.ingredients = [...meal.ingredients, ingredient];
-            return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
-        });
-    }
-
-    const onRemoveIngredientFromMeal = (ingredientIndex: number, mealIndex:number) => {
-        setMeals(oldMeals => {
-            let meal = Object.assign(oldMeals[mealIndex], {});
-            meal.ingredients = [...meal.ingredients.slice(0, ingredientIndex), ...meal.ingredients.slice(ingredientIndex+1)];
-            return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
-        });
-    }
-    // ******************** /Meals ***********************
-
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
-            return (<Meals
-                        meals={meals}
-                        onAddMeal={onAddMeal}
-                        onRemoveMeal={onRemoveMeal}
-                        onAddIngredientToMeal={onAddIngredientToMeal}
-                        onRemoveIngredientFromMeal={onRemoveIngredientFromMeal}
-                    />);
+            return (<Meals />);
             case 1:
             return (<Sidelines />);
             case 2:

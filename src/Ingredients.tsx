@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { RecoilState, useRecoilState } from 'recoil'
 import {
     List, ListItem, ListItemText, ListItemSecondaryAction,
     Button, IconButton,
@@ -9,8 +10,30 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Ingredient } from './dataStructure';
 
+type AtomIngredientProps = {
+    recoilState:RecoilState<Ingredient>,
+    onClickRemoveIngredient: () => void,
+};
+
+function AtomIngredient(props:AtomIngredientProps) {
+    const [ingredient, setIngredient] = useRecoilState(props.recoilState);
+    return (
+        <ListItem key={'ingredient-'+props.recoilState.key}>
+            <ListItemText
+                primary={ ingredient.label }
+                secondary={ 'Secondary text' }
+            />
+            <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete" onClick={ e => props.onClickRemoveIngredient() }>
+                <DeleteIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
+    );
+}
+
 type IngredientsProps = {
-    ingredients: Ingredient[],
+    ingredients: RecoilState<Ingredient>[],
     onAddIngredient: (ingredient:Ingredient) => void
     onRemoveIngredient: (index:number) => void
 }
@@ -53,18 +76,11 @@ function Ingredients (props: IngredientsProps) {
     return (
         <List>
             { props.ingredients.length > 0 ?
-              props.ingredients.map( (ingredient, index) => (
-                    <ListItem key={'ingredient-'+index}>
-                        <ListItemText
-                          primary={ ingredient.label }
-                          secondary={ 'Secondary text' }
-                        />
-                        <ListItemSecondaryAction>
-                          <IconButton edge="end" aria-label="delete" onClick={ e => onClickRemoveIngredient(index) }>
-                            <DeleteIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+              props.ingredients.map( (ingredientState, index) => (
+                  <AtomIngredient
+                      recoilState={ingredientState}
+                      onClickRemoveIngredient={() => onClickRemoveIngredient(index)}
+                  />
                 )
               ) : (<span>Veuillez saisir les ingrédients</span>)
             }

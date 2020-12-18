@@ -1,4 +1,5 @@
-import React, { createRef } from 'react'
+import React, { createRef } from 'react';
+import { useRecoilState } from 'recoil';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
@@ -11,7 +12,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Ingredients from './Ingredients';
-import { Recipe, Ingredient } from './dataStructure';
+import { Recipe, Ingredient, mealsState } from './dataStructure';
 
 const useStyles = makeStyles((theme: Theme) => ({
     heading: {
@@ -22,17 +23,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-type MealsProps = {
-    meals: Recipe[],
-    onAddMeal: (meal:Recipe) => void,
-    onRemoveMeal: (index:number) => void,
-    onAddIngredientToMeal: (ingredient:Ingredient, mealIndex: number) => void,
-    onRemoveIngredientFromMeal: (ingredientIndex:number, mealIndex: number) => void,
-}
+type MealsProps = { }
 
 function Meals(props:MealsProps) {
+    const [meals, setMeals]           = useRecoilState<Recipe[]>(mealsState);
     const [ validAddForm, setValidAddForm ] = React.useState(true);
     const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
+
+    const addMeal = (meal:Recipe) => {
+        console.log("got a new meal to add:", meal);
+        setMeals(oldMeals => [meal, ...oldMeals]);
+        console.log('Added');
+    }
+
     const onClickAddMenu = (e:object) => {
         if(textInput.current === null) return;
 
@@ -45,26 +48,47 @@ function Meals(props:MealsProps) {
             label,
             ingredients: []
         }
-        props.onAddMeal(meal);
+        addMeal(meal);
         textInput.current.value = "";
-    };
-    const onClickRemoveMenu = (index:number) => {
-        props.onRemoveMeal(index);
     }
+
+    const onClickRemoveMenu = (index:number) => {
+        console.log('Got request to remove meal at index ', index);
+        setMeals(oldMeals => [...oldMeals.slice(0,index), ...oldMeals.slice(index+1)]);
+    }
+
+    const onAddIngredientToMeal = (ingredient: Ingredient, mealIndex:number) => {
+        //setMeals(oldMeals => {
+        //    let meal = Object.assign(oldMeals[mealIndex], {});
+        //    meal.ingredients.push(ingredient);
+        //    return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
+        //});
+    }
+
+    const onRemoveIngredientFromMeal = (ingredientIndex: number, mealIndex:number) => {
+        //setMeals(oldMeals => {
+        //    let meal = Object.assign(oldMeals[mealIndex], {});
+        //    meal.ingredients = [...meal.ingredients.slice(0, ingredientIndex), ...meal.ingredients.slice(ingredientIndex+1)];
+        //    return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
+        //});
+    }
+
     const onAddIngredient = (ingredient: Ingredient, mealIndex:number) => {
         console.log('Adding ingredient to menu', mealIndex);
-        props.onAddIngredientToMeal(ingredient, mealIndex);
+        onAddIngredientToMeal(ingredient, mealIndex);
     }
+
     const onAddMealLabelChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setValidAddForm(e.currentTarget.value.trim() !== "");
     }
+
     const classes = useStyles();
     return (
       <>
         <Hidden smDown>
           <Typography gutterBottom variant="h4" component="h2">Votre menu de la semaine</Typography>
         </Hidden>
-          { props.meals.map((meal, index) => (
+          { meals.map((meal, index) => (
         <Accordion key={ 'meal-'+index }>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <IconButton aria-label="supprimer"
@@ -81,7 +105,7 @@ function Meals(props:MealsProps) {
             <Ingredients
                 ingredients={meal.ingredients}
                 onAddIngredient={ (ingredient:Ingredient) => onAddIngredient(ingredient,index) }
-                onRemoveIngredient={ (ingredientIndex:number) => props.onRemoveIngredientFromMeal(ingredientIndex, index) }
+                onRemoveIngredient={ (ingredientIndex:number) => onRemoveIngredientFromMeal(ingredientIndex, index) }
             />
           </AccordionDetails>
         </Accordion>

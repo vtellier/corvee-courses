@@ -21,17 +21,17 @@ const AtomSideline: React.FC<AProps> = (props) => {
     const [recipe, setRecipe] = useRecoilState(props.recoilState);
     const onAddIngredient = (ingredient:Ingredient): void => {
         console.log('onAddIngredient');
-        setRecipe((old:Recipe) => {
-            old.ingredients = [...old.ingredients, ingredient];
-            return old;
-        });
+        //setRecipe((old:Recipe) => {
+        //    old.ingredients = [...old.ingredients, ingredient];
+        //    return old;
+        //});
     };
     const onRemoveIngredient = (index:number): void => {
         console.log('onRemoveIngredient');
-        setRecipe((old:Recipe) => {
-            old.ingredients = [...old.ingredients.slice(0,index), ...old.ingredients.slice(index+1)];
-            return old;
-        });
+        //setRecipe((old:Recipe) => {
+        //    old.ingredients = [...old.ingredients.slice(0,index), ...old.ingredients.slice(index+1)];
+        //    return old;
+        //});
     };
     return (
         <Accordion key={props.recoilState.key}>
@@ -52,7 +52,7 @@ const AtomSideline: React.FC<AProps> = (props) => {
 interface Props { }
 
 const Sidelines: React.FC<Props> = (props) => {
-    const sidelinesAtoms: RecoilState<Recipe>[] = sidelinesStates();
+    const sidelinesAtoms: RecoilState<Recipe>[] = sidelinesStates;
 
     return (
     <>
