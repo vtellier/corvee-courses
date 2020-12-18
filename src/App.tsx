@@ -5,7 +5,6 @@ import {
     Paper,
     Container,
     Typography,
-    Hidden,
     Stepper,
     Step,
     StepButton,
@@ -18,6 +17,7 @@ import {
 
 import Meals from './Meals';
 import Sidelines from './Sidelines';
+import Summary from './Summary';
 
 import './App.css';
 
@@ -72,18 +72,13 @@ function App(props : AppProps) {
     const getStepContent = () => {
         switch (activeStep) {
             case 0:
-            return (<Meals />);
+                return (<Meals />);
             case 1:
-            return (<Sidelines />);
+                return (<Sidelines />);
             case 2:
-            return (
-                <div>
-                    <Hidden smDown>
-                        <Typography gutterBottom variant="h4" component="h2"> Voici la liste des courses </Typography>
-                    </Hidden>
-                    <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span> </div>);
+                return (<Summary />);
             default:
-            return 'Unknown step';
+                return (<span>Unknown step</span>);
         }
     }
 
