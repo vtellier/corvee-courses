@@ -10,37 +10,14 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Ingredient } from './dataStructure';
 
-type AtomIngredientProps = {
-    recoilState:RecoilState<Ingredient>,
-    onClickRemoveIngredient: () => void,
-};
-
-function AtomIngredient(props:AtomIngredientProps) {
-    const [ingredient, setIngredient] = useRecoilState(props.recoilState);
-    return (
-        <ListItem key={'ingredient-'+props.recoilState.key}>
-            <ListItemText
-                primary={ ingredient.label }
-                secondary={ 'Secondary text' }
-            />
-            <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete" onClick={ e => props.onClickRemoveIngredient() }>
-                <DeleteIcon />
-                </IconButton>
-            </ListItemSecondaryAction>
-        </ListItem>
-    );
-}
-
 type IngredientsProps = {
-    ingredients: RecoilState<Ingredient>[],
-    onAddIngredient: (ingredient:Ingredient) => void
-    onRemoveIngredient: (index:number) => void
+    ingredients: RecoilState<Ingredient[]>,
 }
 
 function Ingredients (props: IngredientsProps) {
     const [ adding, setAdding ] = React.useState(true);
     const [ validAddForm, setValidAddForm ] = React.useState(true);
+    const [ ingredients, setIngredients ] = useRecoilState(props.ingredients);
     const textLabelInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
     const onClickAdd = (e:object):void => {
         setAdding(true);
@@ -57,8 +34,7 @@ function Ingredients (props: IngredientsProps) {
         if(label === "") return;
 
         const ingredient:Ingredient = { label };
-        if(props.onAddIngredient !== undefined)
-            props.onAddIngredient(ingredient);
+        setIngredients(oldIngredients => [...oldIngredients, ingredient]);
         setAdding(false);
     }
     const onClickCancel = (e:object):void => {
@@ -69,18 +45,24 @@ function Ingredients (props: IngredientsProps) {
         }
     }
     const onClickRemoveIngredient = (index:number):void => {
-        if(props.onRemoveIngredient)
-            props.onRemoveIngredient(index);
+        setIngredients(oldIngredients => [...oldIngredients.slice(0,index), ...oldIngredients.slice(index+1)]);
     }
 
     return (
         <List>
-            { props.ingredients.length > 0 ?
-              props.ingredients.map( (ingredientState, index) => (
-                  <AtomIngredient
-                      recoilState={ingredientState}
-                      onClickRemoveIngredient={() => onClickRemoveIngredient(index)}
-                  />
+            { ingredients.length > 0 ?
+              ingredients.map( (ingredient, index) => (
+                    <ListItem key={'ingredient-'+index}>
+                        <ListItemText
+                            primary={ ingredient.label }
+                            secondary={ '' }
+                        />
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="delete" onClick={ e => onClickRemoveIngredient(index) }>
+                            <DeleteIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
                 )
               ) : (<span>Veuillez saisir les ingrédients</span>)
             }

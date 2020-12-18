@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, atom } from 'recoil';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
     Accordion, AccordionSummary, AccordionDetails,
@@ -26,15 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 type MealsProps = { }
 
 function Meals(props:MealsProps) {
-    const [meals, setMeals]           = useRecoilState<Recipe[]>(mealsState);
+    const [ meals, setMeals ]               = useRecoilState<Recipe[]>(mealsState);
     const [ validAddForm, setValidAddForm ] = React.useState(true);
     const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
-
-    const addMeal = (meal:Recipe) => {
-        console.log("got a new meal to add:", meal);
-        setMeals(oldMeals => [meal, ...oldMeals]);
-        console.log('Added');
-    }
 
     const onClickAddMenu = (e:object) => {
         if(textInput.current === null) return;
@@ -46,36 +40,14 @@ function Meals(props:MealsProps) {
 
         const meal:Recipe = {
             label,
-            ingredients: []
+            ingredients: atom<Ingredient[]>({ key: 'meal-'+label+"-ingredients", default: [] }),
         }
-        addMeal(meal);
+        setMeals(oldMeals => [meal, ...oldMeals]);
         textInput.current.value = "";
     }
 
     const onClickRemoveMenu = (index:number) => {
-        console.log('Got request to remove meal at index ', index);
         setMeals(oldMeals => [...oldMeals.slice(0,index), ...oldMeals.slice(index+1)]);
-    }
-
-    const onAddIngredientToMeal = (ingredient: Ingredient, mealIndex:number) => {
-        //setMeals(oldMeals => {
-        //    let meal = Object.assign(oldMeals[mealIndex], {});
-        //    meal.ingredients.push(ingredient);
-        //    return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
-        //});
-    }
-
-    const onRemoveIngredientFromMeal = (ingredientIndex: number, mealIndex:number) => {
-        //setMeals(oldMeals => {
-        //    let meal = Object.assign(oldMeals[mealIndex], {});
-        //    meal.ingredients = [...meal.ingredients.slice(0, ingredientIndex), ...meal.ingredients.slice(ingredientIndex+1)];
-        //    return [...oldMeals.slice(0,mealIndex), meal, ...oldMeals.slice(mealIndex+1)];
-        //});
-    }
-
-    const onAddIngredient = (ingredient: Ingredient, mealIndex:number) => {
-        console.log('Adding ingredient to menu', mealIndex);
-        onAddIngredientToMeal(ingredient, mealIndex);
     }
 
     const onAddMealLabelChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -102,11 +74,7 @@ function Meals(props:MealsProps) {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Ingredients
-                ingredients={meal.ingredients}
-                onAddIngredient={ (ingredient:Ingredient) => onAddIngredient(ingredient,index) }
-                onRemoveIngredient={ (ingredientIndex:number) => onRemoveIngredientFromMeal(ingredientIndex, index) }
-            />
+            <Ingredients ingredients={meal.ingredients} />
           </AccordionDetails>
         </Accordion>
           ))

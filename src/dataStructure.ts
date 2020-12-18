@@ -5,7 +5,7 @@ import {
 
 export interface Recipe {
     label: string,
-    ingredients: RecoilState<Ingredient>[]
+    ingredients: RecoilState<Ingredient[]>
 }
 
 
@@ -18,9 +18,9 @@ export const mealsState:RecoilState<Recipe[]> = atom<Recipe[]>({ key: 'meals', d
 const newRecipe = (key:string, label:string):RecoilState<Recipe> => {
     const defaultR:Recipe = {
         label,
-        ingredients:[]
+        ingredients:atom<Ingredient[]>({ key:'ingredients-'+key, default: [] })
     };
-    return atom({ key, default: defaultR });
+    return atom<Recipe>({ key, default: defaultR });
 }
 
 export const sidelinesStates:RecoilState<Recipe>[] = [
