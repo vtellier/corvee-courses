@@ -1,13 +1,14 @@
 import {
     atom,
+    selector,
     RecoilState,
+    RecoilValueReadOnly,
 } from 'recoil';
 
 export interface Recipe {
     label: string,
     ingredients: RecoilState<Ingredient[]>
 }
-
 
 export interface Ingredient {
     label: string,
@@ -31,4 +32,11 @@ export const sidelinesStates:RecoilState<Recipe>[] = [
     newRecipe('sideline_householdProducts', 'Entretien'),
     newRecipe('sideline_others',            'Autres'),
 ];
+
+export const allIngredientsList:RecoilValueReadOnly<Ingredient[]> = selector<Ingredient[]>({
+    key: "allIngredientsList",
+    get: ({get}) => {
+        return [];
+    }
+});
 
