@@ -48,16 +48,20 @@ export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector
     }
 });
 
-export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector<Ingredient[]>({
+export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[][]> = selector<Ingredient[][]>({
     key: "uniqueIngredientsSelector",
     get: ({get}) => {
         let obj:any = {};
         const all:Ingredient[] = get(allIngredientsSelector);
-        all.forEach((ing:Ingredient) => { obj[ing.id] = ing; });
+        all.forEach((ing:Ingredient) => {
+            if(obj[ing.id] === undefined)
+                obj[ing.id] = [];
+            obj[ing.id].push(ing);
+        });
 
         return Object.entries(obj).map(
             (pair:any[]) => {
-                const value:Ingredient = pair[1];
+                const value:Ingredient[] = pair[1];
                 return (value)
             });
     }

@@ -5,9 +5,12 @@ import {
 import {
     Typography,
     Hidden,
-    List, ListItem
+    List, ListItemText,
 } from '@material-ui/core';
-import { uniqueIngredientsSelector } from './dataStructure';
+import {
+    uniqueIngredientsSelector,
+    Ingredient
+} from './dataStructure';
 
 interface SummaryProps {
 }
@@ -23,12 +26,19 @@ const Summary: React.FC<SummaryProps> = (props) => {
             </Hidden>
             <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
             <List>
-                { ingredients.map((ingredient) => (
-                    <ListItem>
-                        { ingredient.label }
-                        { ingredient.quantity ? ' - '+ingredient.quantity : '' }
-                    </ListItem>
-                )) }
+                { ingredients.map((ingredientsGroup) => {
+                    const label = ingredientsGroup[0].label;
+                    const quantities:string[] = ingredientsGroup.reduce((acc:string[], ing:Ingredient) => {
+                        if(ing.quantity !== undefined)
+                            acc.push(ing.quantity);
+                        return acc;
+                    },[]);
+                    return ( <ListItemText
+                                key={ingredientsGroup[0].id}
+                                primary={ label }
+                                secondary={ quantities.join(', ') }
+                                    /> )
+                }) }
             </List>
         </>
     );

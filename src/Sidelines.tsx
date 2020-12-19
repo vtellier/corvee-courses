@@ -41,8 +41,8 @@ const Sidelines: React.FC<Props> = (props) => {
       <Hidden smDown>
         <Typography gutterBottom variant="h4" component="h2"> Les à-côté </Typography>
       </Hidden>
-        { sidelinesAtoms.map((atom) => (
-            <AtomSideline recoilState={atom} />
+        { sidelinesAtoms.map((atom, index) => (
+            <AtomSideline key={'asl'+index} recoilState={atom} />
         )) }
     </>
     )
