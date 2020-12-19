@@ -24,7 +24,10 @@ const Summary: React.FC<SummaryProps> = (props) => {
             <span> Ajustez votre liste en fonction de ce que vous avez déjà dans vos équipés </span>
             <List>
                 { ingredients.map((ingredient) => (
-                    <ListItem>{ ingredient.label }</ListItem>
+                    <ListItem>
+                        { ingredient.label }
+                        { ingredient.quantity ? ' - '+ingredient.quantity : '' }
+                    </ListItem>
                 )) }
             </List>
         </>

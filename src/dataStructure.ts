@@ -36,12 +36,14 @@ export const sidelinesStates:RecoilState<Recipe>[] = [
 export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector<Ingredient[]>({
     key: "allIngredientsSelector",
     get: ({get}) => {
-        const ingredients:Ingredient[] = sidelinesStates.reduce(
+        const slIngredients:Ingredient[] = sidelinesStates.reduce(
             (acc:Ingredient[], slState:RecoilState<Recipe>) => {
                 const sl:Recipe = get(slState);
                 return [...acc, ...get(sl.ingredients)];
             }, []);
-        return ingredients;
+        const mIngredients:Ingredient[] = get(mealsState).reduce(
+            (acc:Ingredient[], m:Recipe) => { return [...acc, ...get(m.ingredients)]}, []);
+        return [...mIngredients, ...slIngredients];
     }
 });
 
