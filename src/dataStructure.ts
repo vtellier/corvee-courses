@@ -11,6 +11,7 @@ export interface Recipe {
 }
 
 export interface Ingredient {
+    id: string,
     label: string,
     quantity: string,
 }
@@ -44,6 +45,21 @@ export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector
         const mIngredients:Ingredient[] = get(mealsState).reduce(
             (acc:Ingredient[], m:Recipe) => { return [...acc, ...get(m.ingredients)]}, []);
         return [...mIngredients, ...slIngredients];
+    }
+});
+
+export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector<Ingredient[]>({
+    key: "uniqueIngredientsSelector",
+    get: ({get}) => {
+        let obj:any = {};
+        const all:Ingredient[] = get(allIngredientsSelector);
+        all.forEach((ing:Ingredient) => { obj[ing.id] = ing; });
+
+        return Object.entries(obj).map(
+            (pair:any[]) => {
+                const value:Ingredient = pair[1];
+                return (value)
+            });
     }
 });
 

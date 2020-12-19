@@ -37,7 +37,8 @@ function Ingredients (props: IngredientsProps) {
 
         if(label === "") return;
 
-        const ingredient:Ingredient = { label, quantity };
+        const id = label.toLowerCase().replace(/\s{2,}/g," ").replace(/\s+/g, '');
+        const ingredient:Ingredient = { id, label, quantity };
         setIngredients(oldIngredients => [...oldIngredients, ingredient]);
         setAdding(false);
     }
