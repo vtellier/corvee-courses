@@ -7,14 +7,14 @@ import {
     Hidden,
     List, ListItem
 } from '@material-ui/core';
-import { allIngredientsList } from './dataStructure';
+import { allIngredientsSelector } from './dataStructure';
 
 interface SummaryProps {
 }
 
 const Summary: React.FC<SummaryProps> = (props) => {
 
-    const ingredients = useRecoilValue( allIngredientsList );
+    const ingredients = useRecoilValue( allIngredientsSelector );
 
     return (
         <>
