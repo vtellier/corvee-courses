@@ -4,7 +4,6 @@ import {
     Toolbar,
     Paper,
     Container,
-    Typography,
     Stepper,
     Step,
     StepButton,
@@ -20,6 +19,7 @@ import Sidelines from './Sidelines';
 import Summary from './Summary';
 
 import './App.css';
+import logo from './logo-alpha.png';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -86,9 +86,7 @@ function App(props : AppProps) {
     <div>
         <AppBar position="static">
         <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-                Ravitaillement
-            </Typography>
+            <img src={logo} alt="Ravitaillement" title="Le logo de l'application" />
         </Toolbar>
         </AppBar>
         <Container maxWidth="md" className={classes.container}>
