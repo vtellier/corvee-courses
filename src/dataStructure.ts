@@ -48,6 +48,11 @@ export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector
     }
 });
 
+/**
+ * A selector that regroups all the ingredients of all meals 
+ * \return A Ingredient[][] where the first level groups the same ingredients togethers
+ *         and the second level groups the ingredients themeselves, one per meal.
+ */
 export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[][]> = selector<Ingredient[][]>({
     key: "uniqueIngredientsSelector",
     get: ({get}) => {

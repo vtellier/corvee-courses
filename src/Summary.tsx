@@ -5,12 +5,13 @@ import {
 import {
     Typography,
     Hidden,
-    List, ListItemText,
+    List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction,
 } from '@material-ui/core';
 import {
     uniqueIngredientsSelector,
     Ingredient
 } from './dataStructure';
+import Checkbox from '@material-ui/core/Checkbox';
 
 interface SummaryProps {
 }
@@ -28,16 +29,29 @@ const Summary: React.FC<SummaryProps> = (props) => {
             <List>
                 { ingredients.map((ingredientsGroup) => {
                     const label = ingredientsGroup[0].label;
+
+                    // We will merge the quantities on one line, to make it simple for now
                     const quantities:string[] = ingredientsGroup.reduce((acc:string[], ing:Ingredient) => {
                         if(ing.quantity !== undefined)
                             acc.push(ing.quantity);
                         return acc;
                     },[]);
-                    return ( <ListItemText
+                    
+                    // One day we should display somewhere all the meals this ingredient is needed for
+                    const meals:string|null = null;
+                    
+                    return (
+                        <ListItem>
+                            <ListItemText
                                 key={ingredientsGroup[0].id}
-                                primary={ label }
-                                secondary={ quantities.join(', ') }
-                                    /> )
+                                primary={ label + ': ' + quantities.join(', ') }
+                                secondary={ meals }
+                            />
+                            <ListItemSecondaryAction>
+                                <Checkbox />
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    )
                 }) }
             </List>
         </>

@@ -78,7 +78,7 @@ function App(props : AppProps) {
             case 2:
                 return (<Summary />);
             default:
-                return (<span>Unknown step</span>);
+                return (<span>Something wrong happened 😒</span>);
         }
     }
 
