@@ -1,8 +1,13 @@
-# Getting Started with Create React App
+# Ravitaillement
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple web app to facilitate your shopping before leaving for a week cruise in open sea!
 
-## Available Scripts
+## What is it built on
+
+- React.js and [Create React App](https://github.com/facebook/create-react-app).
+- [Recoil.js](https://recoiljs.org/)
+
+## Available Scripts from Create React App
 
 In the project directory, you can run:
 
