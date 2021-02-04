@@ -41,7 +41,7 @@ const Summary: React.FC<SummaryProps> = (props) => {
                     const meals:string|null = null;
                     
                     return (
-                        <ListItem>
+                        <ListItem key={ label + '-group' }>
                             <ListItemText
                                 key={ingredientsGroup[0].id}
                                 primary={ label + ': ' + quantities.join(', ') }
