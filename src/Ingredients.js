@@ -18,8 +18,8 @@ function Ingredients (props: IngredientsProps) {
     const [ adding, setAdding ] = React.useState(true);
     const [ validAddForm, setValidAddForm ] = React.useState(true);
     const [ ingredients, setIngredients ] = useRecoilState(props.ingredients);
-    const textLabelInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
-    const quantityInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
+    const textLabelInput: React.RefObject = createRef()
+    const quantityInput: React.RefObject = createRef()
     const onClickAdd = (e:object):void => {
         setAdding(true);
     }

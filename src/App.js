@@ -63,7 +63,7 @@ function App(props : AppProps) {
 
     const classes = useStyles();
     const steps = getSteps();
-    const [activeStep, setActiveStep] = useRecoilState<number>(activeStepState);
+    const [activeStep, setActiveStep] = useRecoilState(activeStepState);
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);

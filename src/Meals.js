@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 type MealsProps = { }
 
 function Meals(props:MealsProps) {
-    const [ meals, setMeals ]               = useRecoilState<Recipe[]>(mealsState);
+    const [ meals, setMeals ]               = useRecoilState(mealsState);
     const [ validAddForm, setValidAddForm ] = React.useState(true);
-    const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
+    const textInput: React.RefObject = createRef()
 
     const onClickAddMenu = (e:object) => {
         if(textInput.current === null) return;
@@ -40,7 +40,7 @@ function Meals(props:MealsProps) {
 
         const meal:Recipe = {
             label,
-            ingredients: atom<Ingredient[]>({ key: 'meal-'+label+"-ingredients", default: [] }),
+            ingredients: atom({ key: 'meal-'+label+"-ingredients", default: [] }),
         }
         setMeals(oldMeals => [meal, ...oldMeals]);
         textInput.current.value = "";

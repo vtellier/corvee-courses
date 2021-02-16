@@ -16,14 +16,18 @@ export interface Ingredient {
     quantity: string,
 }
 
-export const mealsState:RecoilState<Recipe[]> = atom<Recipe[]>({ key: 'meals', default: [] });
+/**
+ * An atom of Recipe[]
+ */
+export const mealsState:RecoilState = atom({ key: 'meals', default: [] });
 
 const newRecipe = (key:string, label:string):RecoilState<Recipe> => {
     const defaultR:Recipe = {
         label,
-        ingredients:atom<Ingredient[]>({ key:'ingredients-'+key, default: [] })
+		/// An atom of Ingredient[]
+        ingredients:atom({ key:'ingredients-'+key, default: [] })
     };
-    return atom<Recipe>({ key, default: defaultR });
+    return atom({ key, default: defaultR });
 }
 
 export const sidelinesStates:RecoilState<Recipe>[] = [
@@ -34,7 +38,8 @@ export const sidelinesStates:RecoilState<Recipe>[] = [
     newRecipe('sideline_others',            'Autres'),
 ];
 
-export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector<Ingredient[]>({
+/// A selector of Ingredient[]
+export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector({
     key: "allIngredientsSelector",
     get: ({get}) => {
         const slIngredients:Ingredient[] = sidelinesStates.reduce(
@@ -49,11 +54,11 @@ export const allIngredientsSelector:RecoilValueReadOnly<Ingredient[]> = selector
 });
 
 /**
- * A selector that regroups all the ingredients of all meals 
+ * A selector that regroups all the ingredients of all meals. It contains Ingredient[][]
  * \return A Ingredient[][] where the first level groups the same ingredients togethers
  *         and the second level groups the ingredients themeselves, one per meal.
  */
-export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[][]> = selector<Ingredient[][]>({
+export const uniqueIngredientsSelector:RecoilValueReadOnly<Ingredient[][]> = selector({
     key: "uniqueIngredientsSelector",
     get: ({get}) => {
         let obj:any = {};
