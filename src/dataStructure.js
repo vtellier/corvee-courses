@@ -2,6 +2,7 @@ import {
     atom,
     selector,
     RecoilState,
+	AtomEffect,
     RecoilValueReadOnly,
 } from 'recoil';
 
@@ -16,10 +17,40 @@ export interface Ingredient {
     quantity: string,
 }
 
+class DefaultValue {}
+
+const localStorageEffect:AtomEffect<Recipe[]> = key => ({setSelf, onSet}) => {
+	const savedValue = localStorage.getItem(key)
+	if (savedValue != null)
+		setSelf(JSON.parse(savedValue));
+
+	onSet(newValue => {
+		if (newValue instanceof DefaultValue)
+			localStorage.removeItem(key);
+		else
+			localStorage.setItem(key, JSON.stringify(newValue));
+	});
+};
+
 /**
  * An atom of Recipe[]
  */
-export const mealsState:RecoilState = atom({ key: 'meals', default: [] });
+export const mealsState:RecoilState = atom({
+	key: 'meals',
+	default: [],
+	effects_UNSTABLE: [
+		/*({setSelf, onSet}) => {
+			setSelf(localStorage.getItem('meals').then(savedValue => savedValue != null
+				? JSON.parse(savedValue)
+				: new DefaultValue()));
+			
+			onSet(newMeals => {
+				console.debug("newMeals counts:", newMeals);
+			});
+		},*/
+		localStorageEffect('userMeals')
+	]
+});
 
 const newRecipe = (key:string, label:string):RecoilState<Recipe> => {
     const defaultR:Recipe = {
