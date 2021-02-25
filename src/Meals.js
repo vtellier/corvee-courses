@@ -12,7 +12,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Ingredients from './Ingredients';
-import { Recipe, Ingredient, mealsState } from './dataStructure';
+import { Recipe, Ingredient, mealsState, getIngredientsFromKey } from './dataStructure';
 
 const useStyles = makeStyles((theme: Theme) => ({
     heading: {
@@ -39,9 +39,10 @@ function Meals(props:MealsProps) {
         if(label === '') return;
 
         const meal:Recipe = {
-            label,
-            ingredients: atom({ key: 'meal-'+label+"-ingredients", default: [] }),
-        }
+			label: label,
+			/// An atom of Ingredient[]
+			ingredients: getIngredientsFromKey('meal-'+label+'-ingredients')
+		};
         setMeals(oldMeals => [meal, ...oldMeals]);
         textInput.current.value = "";
     }

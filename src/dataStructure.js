@@ -8,7 +8,7 @@ import {
 
 export interface Recipe {
     label: string,
-    ingredients: RecoilState<Ingredient[]>
+    ingredients: RecoilState<Ingredient[]>,
 }
 
 export interface Ingredient {
@@ -32,23 +32,58 @@ const localStorageEffect:AtomEffect<Recipe[]> = key => ({setSelf, onSet}) => {
 	});
 };
 
+export const getIngredientsFromKey = (key) => {
+	return atom({
+		key,
+		default: [],
+		effects_UNSTABLE: [
+			({ setSelf, onSet, trigger }) => {
+				// For initialization
+				if(trigger === 'get') {
+					const savedString = localStorage.getItem(key);
+					if (savedString != null) {
+						let savedArray = JSON.parse(savedString);
+						setSelf(savedArray);
+					}
+				}
+				// Updates made on the atom
+				onSet(ingredientArray => {
+					localStorage.setItem(key, JSON.stringify(ingredientArray));
+				});
+			}
+		]
+	});
+};
+
 /**
  * An atom of Recipe[]
+ * It is used only in the meal tab
  */
 export const mealsState:RecoilState = atom({
 	key: 'meals',
 	default: [],
 	effects_UNSTABLE: [
-		/*({setSelf, onSet}) => {
-			setSelf(localStorage.getItem('meals').then(savedValue => savedValue != null
-				? JSON.parse(savedValue)
-				: new DefaultValue()));
+		({setSelf, onSet, trigger}) => {
+			// Initialization
+			if(trigger === 'get') {
+				const savedString = localStorage.getItem('meals')
+				if (savedString != null) {
+					const savedArray = JSON.parse(savedString)
+					let atomized = savedArray.map(meal => {
+						const ingredientsKey = meal.ingredients;
+						meal.ingredients = getIngredientsFromKey(ingredientsKey);
+						return meal;
+					});
+					setSelf(atomized);
+				}
+			}
 			
+			// Modification done in the atom
 			onSet(newMeals => {
-				console.debug("newMeals counts:", newMeals);
+				localStorage.setItem('meals', JSON.stringify(newMeals));
 			});
-		},*/
-		localStorageEffect('userMeals')
+		},
+		//localStorageEffect('userMeals')
 	]
 });
 
@@ -56,7 +91,7 @@ const newRecipe = (key:string, label:string):RecoilState<Recipe> => {
     const defaultR:Recipe = {
         label,
 		/// An atom of Ingredient[]
-        ingredients:atom({ key:'ingredients-'+key, default: [] })
+        ingredients: getIngredientsFromKey(key+'-ingredients')
     };
     return atom({ key, default: defaultR });
 }
